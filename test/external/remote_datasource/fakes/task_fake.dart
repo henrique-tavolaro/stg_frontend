@@ -1,3 +1,5 @@
+import 'package:stg_frontend/infra/models/task/task_model.dart';
+
 final taskJson = {
 "id": "123",
 "previusId": "122",
@@ -13,3 +15,5 @@ final taskJson = {
 "createdAt": "2022-03-21T10:00:00Z",
 "deletedAt": null
 };
+
+final taskModel = TaskModel.fromJson(taskJson);
