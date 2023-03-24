@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:stg_frontend/core/error/failure.dart';
 
-abstract class UseCase<Type, Params> {
-  Future<Either<Failure, Type>> call({required Params params});
+abstract class UseCase<Type, Props> {
+  Future<Either<Failure, Type>> call({required Props props});
 }
 
-class NoParams {
-  const NoParams();
+class NoProps {
+  const NoProps();
 }
