@@ -3,13 +3,15 @@ import 'package:stg_frontend/core/enums/task_status.dart';
 import 'package:stg_frontend/infra/models/task/task_model.dart';
 
 abstract class ITaskDatasource {
-  Future<Unit> createTask({required CreateTaskProps props});
+  Future<TaskModel> createTask({required CreateTaskProps props});
 
   Future<Unit> deleteTask({required DeleteTaskProps props});
 
   Future<TaskModel> fetchTask({required FetchTaskProps props});
 
   Future<Unit> updateTask({required UpdateTaskProps props});
+
+  Future<List<TaskModel>> fetchTasks();
 }
 
 class UpdateTaskProps {
@@ -21,7 +23,7 @@ class UpdateTaskProps {
   final List<String> assignedTo;
   final String? documentation;
   final List<String> systems;
-  final TaskStatus?   status;
+  final TaskStatus? status;
 
   UpdateTaskProps(
       this.id,
@@ -52,9 +54,16 @@ class DeleteTaskProps {
 }
 
 class CreateTaskProps {
-  final String id;
+  final String name;
+  final String department;
   final String? previusId;
   final String? fatherId;
 
-  CreateTaskProps(this.id, this.previusId, this.fatherId);
+  CreateTaskProps(
+    this.name,
+      this.department,
+    this.previusId,
+    this.fatherId,
+
+  );
 }

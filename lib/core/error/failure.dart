@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stg_frontend/core/contants/app_texts.dart';
+import 'package:stg_frontend/core/constants/app_texts.dart';
 
 @immutable
 class Failure {

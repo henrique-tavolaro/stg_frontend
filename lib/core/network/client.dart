@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:stg_frontend/core/contants/network.dart';
+import 'package:stg_frontend/core/constants/network.dart';
 
 import 'i_client.dart';
 import 'interceptor.dart';
@@ -11,7 +11,7 @@ class HttpClient extends IHttpClient {
   final Dio dio = Dio(
       BaseOptions(
           baseUrl: BASEURL,
-          contentType: applicationJson))..interceptors.addAll([
+))..interceptors.addAll([
     PrettyDioLogger(
       requestHeader: true,
       requestBody: true,

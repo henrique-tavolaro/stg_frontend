@@ -7,8 +7,8 @@ part 'task_model.g.dart';
 
 @freezed
 class TaskModel extends TaskEntity with _$TaskModel {
-  const factory TaskModel({
-    required String id,
+  factory TaskModel({
+    @JsonKey(name: '_id') required String id,
     String? previusId,
     String? fatherId,
     required String name,

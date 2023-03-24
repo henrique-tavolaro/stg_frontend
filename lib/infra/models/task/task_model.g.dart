@@ -7,7 +7,7 @@ part of 'task_model.dart';
 // **************************************************************************
 
 _$_TaskModel _$$_TaskModelFromJson(Map<String, dynamic> json) => _$_TaskModel(
-      id: json['id'] as String,
+      id: json['_id'] as String,
       previusId: json['previusId'] as String?,
       fatherId: json['fatherId'] as String?,
       name: json['name'] as String,
@@ -29,7 +29,7 @@ _$_TaskModel _$$_TaskModelFromJson(Map<String, dynamic> json) => _$_TaskModel(
 
 Map<String, dynamic> _$$_TaskModelToJson(_$_TaskModel instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      '_id': instance.id,
       'previusId': instance.previusId,
       'fatherId': instance.fatherId,
       'name': instance.name,
@@ -45,8 +45,8 @@ Map<String, dynamic> _$$_TaskModelToJson(_$_TaskModel instance) =>
     };
 
 const _$TaskStatusEnumMap = {
-  TaskStatus.PENDING: 'PENDING',
-  TaskStatus.DOING: 'DOING',
-  TaskStatus.DONE: 'DONE',
-  TaskStatus.DELETED: 'DELETED',
+  TaskStatus.Pendente: 'Pendente',
+  TaskStatus.EmAndamento: 'EmAndamento',
+  TaskStatus.Feito: 'Feito',
+  TaskStatus.Excluido: 'Excluido',
 };

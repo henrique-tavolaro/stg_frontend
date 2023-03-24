@@ -15,7 +15,8 @@ class TaskRepository implements ITaskRepository{
   TaskRepository(this.datasource);
 
   @override
-  Future<Either<Failure, Unit>> createTask({required CreateTaskProps props})async  {
+  Future<Either<Failure, TaskModel>> createTask({required CreateTaskProps props})async  {
+    print('props rep ${props}');
     try {
       return right( await datasource.createTask(props: props));
     } on ServerException catch (e) {
@@ -47,6 +48,15 @@ class TaskRepository implements ITaskRepository{
       return right( await datasource.updateTask(props: props));
     } on ServerException catch (e) {
       return left(ServerFailure(message: e.message, code: e.code));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TaskModel>>> fetchTasks() async {
+    try {
+      return right( await datasource.fetchTasks());
+    } on ServerException catch (e) {
+    return left(ServerFailure(message: e.message, code: e.code));
     }
   }
 }

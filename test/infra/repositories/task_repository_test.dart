@@ -33,14 +33,14 @@ void main() {
   group('create task', () {
     test('should return right', () async {
       when(() => datasource.createTask(props: any(named: 'props')))
-          .thenAnswer((_) async => unit);
+          .thenAnswer((_) async => taskModel);
 
       final result =
-      await sut.createTask(props: CreateTaskProps('name', null, null));
+      await sut.createTask(props: CreateTaskProps('name', 'rh', null, null));
 
       expect(result, isRight);
-      expect(result, isRightThat(unit));
-      expect(result.fold(id, id), isA<Unit>());
+      expect(result, isRightThat(taskModel));
+      expect(result.fold(id, id), isA<TaskModel>());
     });
 
     test('should throw server failure and return left', () async {
@@ -48,7 +48,7 @@ void main() {
           .thenThrow(const ServerException(message: '', code: ''));
 
       final result =
-      await sut.createTask(props: CreateTaskProps('name', null, null));
+      await sut.createTask(props: CreateTaskProps('name', 'rh', null, null));
 
       expect(result.fold(id, id), isA<ServerFailure>());
       expect(result, isLeft);
@@ -126,6 +126,31 @@ void main() {
       final result =
       await sut.updateTask(props: UpdateTaskProps(
           'id', null, null, null, null, [], null, [], null));
+
+      expect(result.fold(id, id), isA<ServerFailure>());
+      expect(result, isLeft);
+    });
+  });
+
+  group('fetch tasks', () {
+    test('should return right', () async {
+      when(() => datasource.fetchTasks())
+          .thenAnswer((_) async => taskModelList);
+
+      final result =
+      await sut.fetchTasks();
+
+      expect(result, isRight);
+      expect(result, isRightThat(taskModelList));
+      expect(result.fold(id, id), isA<List<TaskModel>>());
+    });
+
+    test('should throw server failure and return left', () async {
+      when(() => datasource.fetchTasks())
+          .thenThrow(const ServerException(message: '', code: ''));
+
+      final result =
+      await sut.fetchTasks();
 
       expect(result.fold(id, id), isA<ServerFailure>());
       expect(result, isLeft);

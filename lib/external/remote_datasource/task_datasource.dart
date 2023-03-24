@@ -1,11 +1,9 @@
-
-
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:stg_frontend/core/contants/app_texts.dart';
+import 'package:stg_frontend/core/constants/app_texts.dart';
 import 'package:stg_frontend/core/error/failure.dart';
 import 'package:stg_frontend/core/network/i_client.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/I_task_datasource.dart';
@@ -19,17 +17,22 @@ class TaskDatasource implements ITaskDatasource {
   TaskDatasource(this.client);
 
   @override
-  Future<Unit> createTask({required CreateTaskProps props}) async {
+  Future<TaskModel> createTask({required CreateTaskProps props}) async {
+
     try {
       final response = await client.post(
         params: HttpPostParams(
           path: '/task',
-          data: {props},
-        ),
-      );
+          data: {
+            "name": props.name,
+            'department': props.department,
+            'fatherId': props.fatherId,
+            'previusId': props.previusId
+          }),
+        );
 
       if (response.statusCode == 201) {
-        return unit;
+        return TaskModel.fromJson(response.data);
       }
 
       throw ServerException(
@@ -126,6 +129,45 @@ class TaskDatasource implements ITaskDatasource {
         code: response.statusCode.toString(),
       );
     } on DioError catch (e) {
+      if (e.error is SocketException) {
+        throw const ServerException.noConnection();
+      }
+
+      throw ServerException(
+        message: e.message,
+        code: e.response?.statusCode?.toString() ?? '',
+      );
+    }
+  }
+
+  @override
+  Future<List<TaskModel>> fetchTasks() async {
+    try {
+      var tasks = <TaskModel>[];
+      final response = await client.get(
+        params: HttpGetParams(
+            path: '/tasks'
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data as List;
+
+        if(data.isNotEmpty) {
+          tasks = data.map<TaskModel>((task) {
+            final item = TaskModel.fromJson(task);
+            return item;
+          }).toList();
+        }
+        return tasks;
+      }
+
+      throw ServerException(
+        message: AppTexts.internalError,
+        code: response.statusCode.toString(),
+      );
+    } on DioError catch (e) {
+      print('error $e');
       if (e.error is SocketException) {
         throw const ServerException.noConnection();
       }

@@ -20,6 +20,7 @@ TaskModel _$TaskModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TaskModel {
+  @JsonKey(name: '_id')
   String get id => throw _privateConstructorUsedError;
   String? get previusId => throw _privateConstructorUsedError;
   String? get fatherId => throw _privateConstructorUsedError;
@@ -46,7 +47,7 @@ abstract class $TaskModelCopyWith<$Res> {
       _$TaskModelCopyWithImpl<$Res, TaskModel>;
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(name: '_id') String id,
       String? previusId,
       String? fatherId,
       String name,
@@ -153,7 +154,7 @@ abstract class _$$_TaskModelCopyWith<$Res> implements $TaskModelCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
+      {@JsonKey(name: '_id') String id,
       String? previusId,
       String? fatherId,
       String name,
@@ -253,8 +254,8 @@ class __$$_TaskModelCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_TaskModel implements _TaskModel {
-  const _$_TaskModel(
-      {required this.id,
+  _$_TaskModel(
+      {@JsonKey(name: '_id') required this.id,
       this.previusId,
       this.fatherId,
       required this.name,
@@ -275,6 +276,7 @@ class _$_TaskModel implements _TaskModel {
       _$$_TaskModelFromJson(json);
 
   @override
+  @JsonKey(name: '_id')
   final String id;
   @override
   final String? previusId;
@@ -385,8 +387,8 @@ class _$_TaskModel implements _TaskModel {
 }
 
 abstract class _TaskModel implements TaskModel {
-  const factory _TaskModel(
-      {required final String id,
+  factory _TaskModel(
+      {@JsonKey(name: '_id') required final String id,
       final String? previusId,
       final String? fatherId,
       required final String name,
@@ -404,6 +406,7 @@ abstract class _TaskModel implements TaskModel {
       _$_TaskModel.fromJson;
 
   @override
+  @JsonKey(name: '_id')
   String get id;
   @override
   String? get previusId;

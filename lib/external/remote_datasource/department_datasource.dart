@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:stg_frontend/core/contants/app_texts.dart';
+import 'package:stg_frontend/core/constants/app_texts.dart';
 import 'package:stg_frontend/core/error/failure.dart';
 import 'package:stg_frontend/core/network/i_client.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/i_department_datasource.dart';

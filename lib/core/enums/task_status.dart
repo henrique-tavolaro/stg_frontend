@@ -1,6 +1,6 @@
 enum TaskStatus {
-  PENDING,
-  DOING,
-  DONE,
-  DELETED
+  Pendente,
+  EmAndamento,
+  Feito,
+  Excluido
 }

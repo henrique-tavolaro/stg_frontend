@@ -6,7 +6,6 @@ import 'package:stg_frontend/core/network/i_client.dart';
 import 'package:stg_frontend/external/remote_datasource/task_datasource.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/I_task_datasource.dart';
 import 'package:stg_frontend/infra/models/task/task_model.dart';
-
 import 'fakes/fakes.dart';
 import 'fakes/http_client_mock.dart';
 import 'fakes/task_fake.dart';
@@ -35,7 +34,7 @@ void main() {
       );
 
       final result =
-          await sut.createTask(props: CreateTaskProps('id', null, null));
+          await sut.createTask(props: CreateTaskProps('id', 'rh', null, null));
 
       expect(result, isA<Unit>());
     });
@@ -51,7 +50,7 @@ void main() {
 
       expect(
           () async => await sut.createTask(
-                props: CreateTaskProps('id', null, null),
+                props: CreateTaskProps('id', 'rh', null, null),
               ),
           throwsA(isA<ServerException>()));
     });
@@ -62,7 +61,7 @@ void main() {
 
       expect(
           () async => await sut.createTask(
-                props: CreateTaskProps('id', null, null),
+                props: CreateTaskProps('id', 'rh', null, null),
               ),
           throwsA(isA<ServerException>()));
     });
@@ -194,6 +193,45 @@ void main() {
               () async =>
           await sut.deleteTask(props: DeleteTaskProps(
               'id', null, null)),
+          throwsA(isA<ServerException>()));
+    });
+  });
+
+  group('fetch tasks', () {
+    test('should return list of tasks', () async {
+      when(() => client.get(params: any(named: 'params'))).thenAnswer(
+            (_) async => HttpResponse(
+          headers: null,
+          statusCode: 200,
+          data: taskModelListJson,
+        ),
+      );
+
+      final result = await sut.fetchTasks();
+
+      expect(result, isA<List<TaskModel>>());
+    });
+
+    test('should throw a server exception if status code not 200', () async {
+      when(() => client.get(params: any(named: 'params'))).thenAnswer(
+            (_) async => HttpResponse(
+          headers: null,
+          statusCode: 400,
+          data: '',
+        ),
+      );
+
+      expect(
+              () async => await sut.fetchTasks(),
+          throwsA(isA<ServerException>()));
+    });
+
+    test('should throw a server exception', () async {
+      when(() => client.get(params: any(named: 'params')))
+          .thenThrow(const ServerException(message: 'message'));
+
+      expect(
+              () async => await sut.fetchTasks(),
           throwsA(isA<ServerException>()));
     });
   });

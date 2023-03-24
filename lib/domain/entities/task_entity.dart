@@ -1,7 +1,7 @@
 import 'package:stg_frontend/core/enums/task_status.dart';
 
 class TaskEntity {
-  final String id;
+  final String _id;
   final String? previusId;
   final String? fatherId;
   final String name;
@@ -15,8 +15,9 @@ class TaskEntity {
   final DateTime createdAt;
   final DateTime? deletedAt;
 
+
   TaskEntity(
-    this.id,
+    this._id,
     this.previusId,
     this.fatherId,
     this.name,
