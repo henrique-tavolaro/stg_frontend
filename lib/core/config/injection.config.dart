@@ -14,13 +14,13 @@ import 'package:stg_frontend/domain/i_repositories/i_department_repository.dart'
 import 'package:stg_frontend/domain/i_repositories/i_task_repository.dart'
     as _i7;
 import 'package:stg_frontend/domain/use_cases/department/create_department_use_case.dart'
-    as _i20;
-import 'package:stg_frontend/domain/use_cases/department/delete_department_use_case.dart.dart'
     as _i21;
-import 'package:stg_frontend/domain/use_cases/department/fetch_department_use_case.dart'
+import 'package:stg_frontend/domain/use_cases/department/delete_department_use_case.dart.dart'
     as _i22;
-import 'package:stg_frontend/domain/use_cases/department/fetch_departments_use_case.dart'
+import 'package:stg_frontend/domain/use_cases/department/fetch_department_use_case.dart'
     as _i23;
+import 'package:stg_frontend/domain/use_cases/department/fetch_departments_use_case.dart'
+    as _i24;
 import 'package:stg_frontend/domain/use_cases/task/create_task_use_case.dart'
     as _i10;
 import 'package:stg_frontend/domain/use_cases/task/delete_task_use_case.dart.dart'
@@ -45,9 +45,11 @@ import 'package:stg_frontend/infra/repositories/department_repository.dart'
     as _i18;
 import 'package:stg_frontend/infra/repositories/task_repository.dart' as _i8;
 import 'package:stg_frontend/presentation/cubit/department_list/department_list_cubit.dart'
-    as _i24;
-import 'package:stg_frontend/presentation/cubit/task_list/task_list_cubit.dart'
+    as _i25;
+import 'package:stg_frontend/presentation/cubit/task_details/task_details_cubit.dart'
     as _i19;
+import 'package:stg_frontend/presentation/cubit/task_list/task_list_cubit.dart'
+    as _i20;
 
 // ignore_for_file: unnecessary_lambdas
 // ignore_for_file: lines_longer_than_80_chars
@@ -83,25 +85,29 @@ _i1.GetIt init(
       () => _i16.DepartmentDatasource(gh<_i3.IHttpClient>()));
   gh.factory<_i17.IDepartmentRepository>(
       () => _i18.DepartmentRepository(gh<_i15.IDepartmentDatasource>()));
-  gh.singleton<_i19.TaskListCubit>(_i19.TaskListCubit(
-    gh<_i14.FetchTasksUseCase>(),
+  gh.singleton<_i19.TaskDetailsCubit>(_i19.TaskDetailsCubit(
+    gh<_i12.FetchTaskUseCase>(),
     gh<_i11.DeleteTaskUseCase>(),
-    gh<_i10.CreateTaskUseCase>(),
     gh<_i9.UpdateTaskUseCase>(),
-    gh<_i13.FetchTasksByDepartmentUseCase>(),
   ));
-  gh.factory<_i20.CreateDepartmentUseCase>(
-      () => _i20.CreateDepartmentUseCase(gh<_i17.IDepartmentRepository>()));
-  gh.factory<_i21.DeleteDepartmentUseCase>(
-      () => _i21.DeleteDepartmentUseCase(gh<_i17.IDepartmentRepository>()));
-  gh.factory<_i22.FetchDepartmentUseCase>(
-      () => _i22.FetchDepartmentUseCase(gh<_i17.IDepartmentRepository>()));
-  gh.factory<_i23.FetchDepartmentsUseCase>(
-      () => _i23.FetchDepartmentsUseCase(gh<_i17.IDepartmentRepository>()));
-  gh.singleton<_i24.DepartmentListCubit>(_i24.DepartmentListCubit(
-    gh<_i23.FetchDepartmentsUseCase>(),
-    gh<_i21.DeleteDepartmentUseCase>(),
-    gh<_i20.CreateDepartmentUseCase>(),
+  gh.factory<_i20.TaskListCubit>(() => _i20.TaskListCubit(
+        gh<_i14.FetchTasksUseCase>(),
+        gh<_i10.CreateTaskUseCase>(),
+        gh<_i13.FetchTasksByDepartmentUseCase>(),
+        gh<_i11.DeleteTaskUseCase>(),
+      ));
+  gh.factory<_i21.CreateDepartmentUseCase>(
+      () => _i21.CreateDepartmentUseCase(gh<_i17.IDepartmentRepository>()));
+  gh.factory<_i22.DeleteDepartmentUseCase>(
+      () => _i22.DeleteDepartmentUseCase(gh<_i17.IDepartmentRepository>()));
+  gh.factory<_i23.FetchDepartmentUseCase>(
+      () => _i23.FetchDepartmentUseCase(gh<_i17.IDepartmentRepository>()));
+  gh.factory<_i24.FetchDepartmentsUseCase>(
+      () => _i24.FetchDepartmentsUseCase(gh<_i17.IDepartmentRepository>()));
+  gh.singleton<_i25.DepartmentListCubit>(_i25.DepartmentListCubit(
+    gh<_i24.FetchDepartmentsUseCase>(),
+    gh<_i22.DeleteDepartmentUseCase>(),
+    gh<_i21.CreateDepartmentUseCase>(),
   ));
   return getIt;
 }

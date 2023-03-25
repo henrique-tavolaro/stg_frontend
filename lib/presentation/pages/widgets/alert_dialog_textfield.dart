@@ -4,24 +4,25 @@ import 'package:stg_frontend/core/constants/app_texts.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/i_department_datasource.dart';
 import 'package:stg_frontend/presentation/cubit/department_list/department_list_cubit.dart';
 
-class MyAlertDialog extends StatefulWidget {
+class MyAlertDialogTextfield extends StatefulWidget {
 
+  final String text;
   final VoidCallback onClick;
   final TextEditingController controller;
 
-  const MyAlertDialog({super.key, required this.onClick, required this.controller});
+  const MyAlertDialogTextfield({super.key, required this.onClick, required this.controller, required this.text});
 
   @override
-  MyAlertDialogState createState() => MyAlertDialogState();
+  MyAlertDialogTextfieldState createState() => MyAlertDialogTextfieldState();
 }
 
 
-class MyAlertDialogState extends State<MyAlertDialog> {
+class MyAlertDialogTextfieldState extends State<MyAlertDialogTextfield> {
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text(AppTexts.areaRegister),
+      title: Text(widget.text),
       content: TextField(
         controller: widget.controller,
         decoration: const InputDecoration(hintText: AppTexts.typeHere),

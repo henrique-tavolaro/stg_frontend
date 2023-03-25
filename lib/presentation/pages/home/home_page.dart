@@ -4,7 +4,7 @@ import 'package:stg_frontend/core/constants/app_texts.dart';
 import 'package:stg_frontend/core/design_system/app_colors.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/i_department_datasource.dart';
 import 'package:stg_frontend/presentation/cubit/department_list/department_list_cubit.dart';
-import 'package:stg_frontend/presentation/pages/home/widgets/alert_dialog.dart';
+import 'package:stg_frontend/presentation/pages/widgets/alert_dialog_textfield.dart';
 import 'package:stg_frontend/presentation/pages/home/widgets/department_list_tile.dart';
 import 'package:stg_frontend/presentation/pages/home/widgets/empty_page.dart';
 import 'package:go_router/go_router.dart';
@@ -106,7 +106,7 @@ class _DepartmentPageViewState extends State<DepartmentPageView> {
             showDialog(
                 context: context,
                 builder: (context) {
-                  return MyAlertDialog(
+                  return MyAlertDialogTextfield(
                     controller: _textEditingController,
                     onClick: () {
                       final text = _textEditingController.text;
@@ -115,7 +115,7 @@ class _DepartmentPageViewState extends State<DepartmentPageView> {
                           props: CreateDepartmentProps(text));
                       Navigator.of(context).pop();
                       _textEditingController.clear();
-                    },
+                    }, text: AppTexts.areaRegister,
                   );
                 });
           },

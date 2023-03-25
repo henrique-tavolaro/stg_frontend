@@ -46,4 +46,18 @@ extension AppTextStyleExtension on Text {
     );
   }
 
+  Text h6 ({TextStyle? style, TextAlign? align}){
+    final defaultStyle = TextStyle(
+        fontSize: 12,
+        fontFamily: GoogleFonts.poppins().fontFamily,
+        fontWeight: FontWeight.w500
+    );
+
+    return Text(
+      data!,
+      style: (this.style ?? defaultStyle).merge(style ?? defaultStyle),
+      textAlign: align,
+    );
+  }
+
 }
