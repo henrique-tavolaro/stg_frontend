@@ -24,6 +24,7 @@ mixin _$TaskListState {
     required TResult Function(String message) failed,
     required TResult Function() creating,
     required TResult Function() created,
+    required TResult Function() deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -34,6 +35,7 @@ mixin _$TaskListState {
     TResult? Function(String message)? failed,
     TResult? Function()? creating,
     TResult? Function()? created,
+    TResult? Function()? deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -44,6 +46,7 @@ mixin _$TaskListState {
     TResult Function(String message)? failed,
     TResult Function()? creating,
     TResult Function()? created,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -55,6 +58,7 @@ mixin _$TaskListState {
     required TResult Function(_Failed value) failed,
     required TResult Function(_Creating value) creating,
     required TResult Function(_Created value) created,
+    required TResult Function(_Deleted value) deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -65,6 +69,7 @@ mixin _$TaskListState {
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Creating value)? creating,
     TResult? Function(_Created value)? created,
+    TResult? Function(_Deleted value)? deleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -75,6 +80,7 @@ mixin _$TaskListState {
     TResult Function(_Failed value)? failed,
     TResult Function(_Creating value)? creating,
     TResult Function(_Created value)? created,
+    TResult Function(_Deleted value)? deleted,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -141,6 +147,7 @@ class _$_Initial implements _Initial {
     required TResult Function(String message) failed,
     required TResult Function() creating,
     required TResult Function() created,
+    required TResult Function() deleted,
   }) {
     return initial();
   }
@@ -154,6 +161,7 @@ class _$_Initial implements _Initial {
     TResult? Function(String message)? failed,
     TResult? Function()? creating,
     TResult? Function()? created,
+    TResult? Function()? deleted,
   }) {
     return initial?.call();
   }
@@ -167,6 +175,7 @@ class _$_Initial implements _Initial {
     TResult Function(String message)? failed,
     TResult Function()? creating,
     TResult Function()? created,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -184,6 +193,7 @@ class _$_Initial implements _Initial {
     required TResult Function(_Failed value) failed,
     required TResult Function(_Creating value) creating,
     required TResult Function(_Created value) created,
+    required TResult Function(_Deleted value) deleted,
   }) {
     return initial(this);
   }
@@ -197,6 +207,7 @@ class _$_Initial implements _Initial {
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Creating value)? creating,
     TResult? Function(_Created value)? created,
+    TResult? Function(_Deleted value)? deleted,
   }) {
     return initial?.call(this);
   }
@@ -210,6 +221,7 @@ class _$_Initial implements _Initial {
     TResult Function(_Failed value)? failed,
     TResult Function(_Creating value)? creating,
     TResult Function(_Created value)? created,
+    TResult Function(_Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -266,6 +278,7 @@ class _$_Loading implements _Loading {
     required TResult Function(String message) failed,
     required TResult Function() creating,
     required TResult Function() created,
+    required TResult Function() deleted,
   }) {
     return loading();
   }
@@ -279,6 +292,7 @@ class _$_Loading implements _Loading {
     TResult? Function(String message)? failed,
     TResult? Function()? creating,
     TResult? Function()? created,
+    TResult? Function()? deleted,
   }) {
     return loading?.call();
   }
@@ -292,6 +306,7 @@ class _$_Loading implements _Loading {
     TResult Function(String message)? failed,
     TResult Function()? creating,
     TResult Function()? created,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -309,6 +324,7 @@ class _$_Loading implements _Loading {
     required TResult Function(_Failed value) failed,
     required TResult Function(_Creating value) creating,
     required TResult Function(_Created value) created,
+    required TResult Function(_Deleted value) deleted,
   }) {
     return loading(this);
   }
@@ -322,6 +338,7 @@ class _$_Loading implements _Loading {
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Creating value)? creating,
     TResult? Function(_Created value)? created,
+    TResult? Function(_Deleted value)? deleted,
   }) {
     return loading?.call(this);
   }
@@ -335,6 +352,7 @@ class _$_Loading implements _Loading {
     TResult Function(_Failed value)? failed,
     TResult Function(_Creating value)? creating,
     TResult Function(_Created value)? created,
+    TResult Function(_Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -423,6 +441,7 @@ class _$_Loaded implements _Loaded {
     required TResult Function(String message) failed,
     required TResult Function() creating,
     required TResult Function() created,
+    required TResult Function() deleted,
   }) {
     return loaded(taskList);
   }
@@ -436,6 +455,7 @@ class _$_Loaded implements _Loaded {
     TResult? Function(String message)? failed,
     TResult? Function()? creating,
     TResult? Function()? created,
+    TResult? Function()? deleted,
   }) {
     return loaded?.call(taskList);
   }
@@ -449,6 +469,7 @@ class _$_Loaded implements _Loaded {
     TResult Function(String message)? failed,
     TResult Function()? creating,
     TResult Function()? created,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -466,6 +487,7 @@ class _$_Loaded implements _Loaded {
     required TResult Function(_Failed value) failed,
     required TResult Function(_Creating value) creating,
     required TResult Function(_Created value) created,
+    required TResult Function(_Deleted value) deleted,
   }) {
     return loaded(this);
   }
@@ -479,6 +501,7 @@ class _$_Loaded implements _Loaded {
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Creating value)? creating,
     TResult? Function(_Created value)? created,
+    TResult? Function(_Deleted value)? deleted,
   }) {
     return loaded?.call(this);
   }
@@ -492,6 +515,7 @@ class _$_Loaded implements _Loaded {
     TResult Function(_Failed value)? failed,
     TResult Function(_Creating value)? creating,
     TResult Function(_Created value)? created,
+    TResult Function(_Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -578,6 +602,7 @@ class _$_Failed implements _Failed {
     required TResult Function(String message) failed,
     required TResult Function() creating,
     required TResult Function() created,
+    required TResult Function() deleted,
   }) {
     return failed(message);
   }
@@ -591,6 +616,7 @@ class _$_Failed implements _Failed {
     TResult? Function(String message)? failed,
     TResult? Function()? creating,
     TResult? Function()? created,
+    TResult? Function()? deleted,
   }) {
     return failed?.call(message);
   }
@@ -604,6 +630,7 @@ class _$_Failed implements _Failed {
     TResult Function(String message)? failed,
     TResult Function()? creating,
     TResult Function()? created,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (failed != null) {
@@ -621,6 +648,7 @@ class _$_Failed implements _Failed {
     required TResult Function(_Failed value) failed,
     required TResult Function(_Creating value) creating,
     required TResult Function(_Created value) created,
+    required TResult Function(_Deleted value) deleted,
   }) {
     return failed(this);
   }
@@ -634,6 +662,7 @@ class _$_Failed implements _Failed {
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Creating value)? creating,
     TResult? Function(_Created value)? created,
+    TResult? Function(_Deleted value)? deleted,
   }) {
     return failed?.call(this);
   }
@@ -647,6 +676,7 @@ class _$_Failed implements _Failed {
     TResult Function(_Failed value)? failed,
     TResult Function(_Creating value)? creating,
     TResult Function(_Created value)? created,
+    TResult Function(_Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (failed != null) {
@@ -709,6 +739,7 @@ class _$_Creating implements _Creating {
     required TResult Function(String message) failed,
     required TResult Function() creating,
     required TResult Function() created,
+    required TResult Function() deleted,
   }) {
     return creating();
   }
@@ -722,6 +753,7 @@ class _$_Creating implements _Creating {
     TResult? Function(String message)? failed,
     TResult? Function()? creating,
     TResult? Function()? created,
+    TResult? Function()? deleted,
   }) {
     return creating?.call();
   }
@@ -735,6 +767,7 @@ class _$_Creating implements _Creating {
     TResult Function(String message)? failed,
     TResult Function()? creating,
     TResult Function()? created,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (creating != null) {
@@ -752,6 +785,7 @@ class _$_Creating implements _Creating {
     required TResult Function(_Failed value) failed,
     required TResult Function(_Creating value) creating,
     required TResult Function(_Created value) created,
+    required TResult Function(_Deleted value) deleted,
   }) {
     return creating(this);
   }
@@ -765,6 +799,7 @@ class _$_Creating implements _Creating {
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Creating value)? creating,
     TResult? Function(_Created value)? created,
+    TResult? Function(_Deleted value)? deleted,
   }) {
     return creating?.call(this);
   }
@@ -778,6 +813,7 @@ class _$_Creating implements _Creating {
     TResult Function(_Failed value)? failed,
     TResult Function(_Creating value)? creating,
     TResult Function(_Created value)? created,
+    TResult Function(_Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (creating != null) {
@@ -834,6 +870,7 @@ class _$_Created implements _Created {
     required TResult Function(String message) failed,
     required TResult Function() creating,
     required TResult Function() created,
+    required TResult Function() deleted,
   }) {
     return created();
   }
@@ -847,6 +884,7 @@ class _$_Created implements _Created {
     TResult? Function(String message)? failed,
     TResult? Function()? creating,
     TResult? Function()? created,
+    TResult? Function()? deleted,
   }) {
     return created?.call();
   }
@@ -860,6 +898,7 @@ class _$_Created implements _Created {
     TResult Function(String message)? failed,
     TResult Function()? creating,
     TResult Function()? created,
+    TResult Function()? deleted,
     required TResult orElse(),
   }) {
     if (created != null) {
@@ -877,6 +916,7 @@ class _$_Created implements _Created {
     required TResult Function(_Failed value) failed,
     required TResult Function(_Creating value) creating,
     required TResult Function(_Created value) created,
+    required TResult Function(_Deleted value) deleted,
   }) {
     return created(this);
   }
@@ -890,6 +930,7 @@ class _$_Created implements _Created {
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Creating value)? creating,
     TResult? Function(_Created value)? created,
+    TResult? Function(_Deleted value)? deleted,
   }) {
     return created?.call(this);
   }
@@ -903,6 +944,7 @@ class _$_Created implements _Created {
     TResult Function(_Failed value)? failed,
     TResult Function(_Creating value)? creating,
     TResult Function(_Created value)? created,
+    TResult Function(_Deleted value)? deleted,
     required TResult orElse(),
   }) {
     if (created != null) {
@@ -914,4 +956,135 @@ class _$_Created implements _Created {
 
 abstract class _Created implements TaskListState {
   const factory _Created() = _$_Created;
+}
+
+/// @nodoc
+abstract class _$$_DeletedCopyWith<$Res> {
+  factory _$$_DeletedCopyWith(
+          _$_Deleted value, $Res Function(_$_Deleted) then) =
+      __$$_DeletedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$_DeletedCopyWithImpl<$Res>
+    extends _$TaskListStateCopyWithImpl<$Res, _$_Deleted>
+    implements _$$_DeletedCopyWith<$Res> {
+  __$$_DeletedCopyWithImpl(_$_Deleted _value, $Res Function(_$_Deleted) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$_Deleted implements _Deleted {
+  const _$_Deleted();
+
+  @override
+  String toString() {
+    return 'TaskListState.deleted()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$_Deleted);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<TaskModel> taskList) loaded,
+    required TResult Function(String message) failed,
+    required TResult Function() creating,
+    required TResult Function() created,
+    required TResult Function() deleted,
+  }) {
+    return deleted();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<TaskModel> taskList)? loaded,
+    TResult? Function(String message)? failed,
+    TResult? Function()? creating,
+    TResult? Function()? created,
+    TResult? Function()? deleted,
+  }) {
+    return deleted?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<TaskModel> taskList)? loaded,
+    TResult Function(String message)? failed,
+    TResult Function()? creating,
+    TResult Function()? created,
+    TResult Function()? deleted,
+    required TResult orElse(),
+  }) {
+    if (deleted != null) {
+      return deleted();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Failed value) failed,
+    required TResult Function(_Creating value) creating,
+    required TResult Function(_Created value) created,
+    required TResult Function(_Deleted value) deleted,
+  }) {
+    return deleted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Failed value)? failed,
+    TResult? Function(_Creating value)? creating,
+    TResult? Function(_Created value)? created,
+    TResult? Function(_Deleted value)? deleted,
+  }) {
+    return deleted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Failed value)? failed,
+    TResult Function(_Creating value)? creating,
+    TResult Function(_Created value)? created,
+    TResult Function(_Deleted value)? deleted,
+    required TResult orElse(),
+  }) {
+    if (deleted != null) {
+      return deleted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Deleted implements TaskListState {
+  const factory _Deleted() = _$_Deleted;
 }

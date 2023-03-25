@@ -24,6 +24,8 @@ class AppTexts {
   static const updateTask = "Atualizar a tarefa?";
   static const areaCreated = "Área criada com sucesso";
   static const taskCreated = "Tarefa criada com sucesso";
+  static const taskDeleted = "Tarefa excluída com sucesso";
   static const zeroTasks = "Nenhuma tarefa cadastrada";
+  static const tasks = "Tarefas";
 
 }

@@ -12,44 +12,25 @@ import 'package:stg_frontend/presentation/pages/department_details/widgets/empty
 import 'package:stg_frontend/presentation/pages/widgets/alert_dialog_textfield.dart';
 import 'package:stg_frontend/presentation/pages/widgets/task_list_tile.dart';
 
-class DepartmentDetailsPage extends StatelessWidget {
-  final String department;
+class TaskListPage extends StatefulWidget {
+  final TaskModel task;
 
-  const DepartmentDetailsPage({Key? key, required this.department})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return
-      BlocProvider(
-      create: (_) => getIt<TaskListCubit>()
-        ..fetchTasksByDepartment(
-            props: FetchTasksByDepartmentProps(department)),
-      child: DepartmentDetailsView(
-        department: department,
-      ),
-    );
-  }
-}
-
-class DepartmentDetailsView extends StatefulWidget {
-  final String department;
-
-  const DepartmentDetailsView({Key? key, required this.department})
-      : super(key: key);
+  const TaskListPage({Key? key, required this.task}) : super(key: key);
 
   @override
-  State<DepartmentDetailsView> createState() => _DepartmentDetailsViewState();
+  State<TaskListPage> createState() => _TaskListPageState();
 }
 
-class _DepartmentDetailsViewState extends State<DepartmentDetailsView> {
+class _TaskListPageState extends State<TaskListPage> {
   final TextEditingController _textEditingController = TextEditingController();
   late TaskListCubit cubit;
+
   @override
   void initState() {
     cubit = getIt<TaskListCubit>()
       ..fetchTasksByDepartment(
-          props: FetchTasksByDepartmentProps(widget.department));
+          props: FetchTasksByDepartmentProps(widget.task.name));
+
     super.initState();
   }
 
@@ -66,52 +47,49 @@ class _DepartmentDetailsViewState extends State<DepartmentDetailsView> {
         backgroundColor: AppColor.grey200,
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          leading: IconButton(onPressed: (){
-            Navigator.of(context).pop();
-          }, icon: const Icon(Icons.arrow_back)),
-          title: Text(widget.department.toUpperCase()),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_back)),
+          title: Text(widget.task.name.toUpperCase()),
           centerTitle: true,
         ),
         body: BlocConsumer<TaskListCubit, TaskListState>(
           bloc: cubit,
           listener: (context, state) {
             state.maybeWhen(
-            created: () => showSnackbar(context, AppTexts.taskCreated),
-            failed: (_) => showSnackbar(context, AppTexts.internalError),
+                created: () => showSnackbar(context, AppTexts.taskCreated),
+                failed: (_) => showSnackbar(context, AppTexts.internalError),
                 deleted: () => showSnackbar(context, AppTexts.taskDeleted),
-                orElse: (){});
+                orElse: () {});
           },
           builder: (context, state) {
             return state.maybeWhen(
-              initial: () => const SizedBox.shrink(),
-              orElse: () => const Center(child: EmptyTaskPage()),
-              loading: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              loaded: (taskList) {
-                if(taskList.isEmpty){
-                  return  const EmptyTaskPage();
-                } else {
-                 return  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: taskList.length,
-                    itemBuilder: (context, index) {
-                      final item = taskList[index];
-                      return TaskListTile(
-                        task: item,
-                        onClick: () async {
-                          final String? result = await context.push<String>('/task_details', extra: item);
-                          if(result != null){
-                           cubit.deleteTask(props: DeleteTaskProps(result, null, null));
-                          }
-                        },
-                      );
-                    },
-                  );
-                }
-
-              }
-            );
+                initial: () => const SizedBox.shrink(),
+                orElse: () => const Center(child: EmptyTaskPage()),
+                loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                loaded: (taskList) {
+                  if (taskList.isEmpty) {
+                    return const EmptyTaskPage();
+                  } else {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: taskList.length,
+                      itemBuilder: (context, index) {
+                        final item = taskList[index];
+                        return TaskListTile(
+                          task: item,
+                          onClick: () async {
+                            context.push<String>('/task_details', extra: item);
+                          },
+                        );
+                      },
+                    );
+                  }
+                });
           },
         ),
         floatingActionButton: FloatingActionButton.extended(
@@ -124,10 +102,15 @@ class _DepartmentDetailsViewState extends State<DepartmentDetailsView> {
                     onClick: () {
                       final text = _textEditingController.text;
 
-                      if(text.isNotEmpty) {
+                      if (text.isNotEmpty) {
                         cubit.createTask(
-                            props: CreateTaskProps(
-                                text, widget.department, null, null));
+                          props: CreateTaskProps(
+                            text,
+                            widget.task.department,
+                            widget.task.id,
+                            widget.task.fatherId ?? widget.task.id,
+                          ),
+                        );
                         Navigator.of(context).pop();
                         _textEditingController.clear();
                       }

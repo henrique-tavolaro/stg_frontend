@@ -10,4 +10,6 @@ class TaskListState with _$TaskListState {
 
   const factory TaskListState.creating() = _Creating;
   const factory TaskListState.created() = _Created;
+
+  const factory TaskListState.deleted() = _Deleted;
 }

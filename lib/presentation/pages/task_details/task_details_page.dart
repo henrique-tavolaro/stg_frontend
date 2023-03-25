@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stg_frontend/core/config/injection.dart';
 import 'package:stg_frontend/core/constants/app_texts.dart';
 import 'package:stg_frontend/core/design_system/app_colors.dart';
@@ -56,18 +57,27 @@ class TaskDetailsView extends StatelessWidget {
               DropDownStatus(
                 status: task.status,
               ),
+              Material(
+                elevation: 4,
+                child: ListTile(
+                  onTap: () => context.push('/task_list', extra: task),
+                  title: const Text(AppTexts.tasks).h4(),
+                  trailing: const Icon(Icons.arrow_forward_rounded),
+                ),
+              ),
               Row(
                 children: [
                   Expanded(
                     child: CustomButton(
                       onClick: () {
+
                         showDialog(
                             context: context,
                             builder: (context) {
                               return MyAlertDialog(
                                   onClick: () {
-                                    Navigator.of(context).pop(task.id);
-                                    Navigator.of(context).pop(task.id);
+                                    Navigator.of(context).pop();
+                                    context.pop(task.id);
                                   },
                                   text: AppTexts.deleteTask);
                             });
