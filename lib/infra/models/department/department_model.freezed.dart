@@ -20,6 +20,7 @@ DepartmentModel _$DepartmentModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DepartmentModel {
+  @JsonKey(name: '_id')
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -37,7 +38,11 @@ abstract class $DepartmentModelCopyWith<$Res> {
           DepartmentModel value, $Res Function(DepartmentModel) then) =
       _$DepartmentModelCopyWithImpl<$Res, DepartmentModel>;
   @useResult
-  $Res call({String id, String name, DateTime createdAt, DateTime? deletedAt});
+  $Res call(
+      {@JsonKey(name: '_id') String id,
+      String name,
+      DateTime createdAt,
+      DateTime? deletedAt});
 }
 
 /// @nodoc
@@ -87,7 +92,11 @@ abstract class _$$_DepartmentModelCopyWith<$Res>
       __$$_DepartmentModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, DateTime createdAt, DateTime? deletedAt});
+  $Res call(
+      {@JsonKey(name: '_id') String id,
+      String name,
+      DateTime createdAt,
+      DateTime? deletedAt});
 }
 
 /// @nodoc
@@ -131,7 +140,7 @@ class __$$_DepartmentModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_DepartmentModel implements _DepartmentModel {
   const _$_DepartmentModel(
-      {required this.id,
+      {@JsonKey(name: '_id') required this.id,
       required this.name,
       required this.createdAt,
       this.deletedAt});
@@ -140,6 +149,7 @@ class _$_DepartmentModel implements _DepartmentModel {
       _$$_DepartmentModelFromJson(json);
 
   @override
+  @JsonKey(name: '_id')
   final String id;
   @override
   final String name;
@@ -186,7 +196,7 @@ class _$_DepartmentModel implements _DepartmentModel {
 
 abstract class _DepartmentModel implements DepartmentModel {
   const factory _DepartmentModel(
-      {required final String id,
+      {@JsonKey(name: '_id') required final String id,
       required final String name,
       required final DateTime createdAt,
       final DateTime? deletedAt}) = _$_DepartmentModel;
@@ -195,6 +205,7 @@ abstract class _DepartmentModel implements DepartmentModel {
       _$_DepartmentModel.fromJson;
 
   @override
+  @JsonKey(name: '_id')
   String get id;
   @override
   String get name;

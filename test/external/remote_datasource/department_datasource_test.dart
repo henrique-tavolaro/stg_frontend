@@ -28,14 +28,14 @@ void main() {
         (_) async => HttpResponse(
           headers: null,
           statusCode: 201,
-          data: 'dummy_data',
+          data: departmentJson,
         ),
       );
 
       final result =
           await sut.createDepartment(props: CreateDepartmentProps('name'));
 
-      expect(result, isA<Unit>());
+      expect(result, isA<DepartmentModel>());
     });
 
     test('should throw a server exception if status code not 201', () async {

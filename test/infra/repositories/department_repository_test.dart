@@ -10,7 +10,6 @@ import 'package:stg_frontend/infra/repositories/department_repository.dart';
 
 import '../../external/remote_datasource/fakes/department_fake.dart';
 import '../../external/remote_datasource/fakes/department_props_fake.dart';
-import '../../external/remote_datasource/fakes/fakes.dart';
 
 class DepartmentDatasourceMock extends Mock implements DepartmentDatasource {}
 
@@ -29,14 +28,14 @@ void main() {
   group('create department', () {
     test('should return right', () async {
       when(() => datasource.createDepartment(props: any(named: 'props')))
-          .thenAnswer((_) async => unit);
+          .thenAnswer((_) async => departmentModel);
 
       final result =
           await sut.createDepartment(props: CreateDepartmentProps('name'));
 
       expect(result, isRight);
-      expect(result, isRightThat(unit));
-      expect(result.fold(id, id), isA<Unit>());
+      expect(result, isRightThat(departmentModel));
+      expect(result.fold(id, id), isA<DepartmentModel>());
     });
 
     test('should throw server failure and return left', () async {

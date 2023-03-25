@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:stg_frontend/infra/models/department/department_model.dart';
 
 abstract class IDepartmentDatasource {
-  Future<Unit> createDepartment({required CreateDepartmentProps props});
+  Future<DepartmentModel> createDepartment({required CreateDepartmentProps props});
   Future<DepartmentModel> fetchDepartment({required FetchDepartmentProps props});
   Future<List<DepartmentModel>> fetchDepartments();
   Future<Unit> deleteDepartment({required DeleteDepartmentProps props});

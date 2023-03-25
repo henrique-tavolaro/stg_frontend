@@ -13,7 +13,7 @@ class DepartmentRepository implements IDepartmentRepository {
   DepartmentRepository(this.datasource);
 
   @override
-  Future<Either<Failure, Unit>> createDepartment({required CreateDepartmentProps props}) async {
+  Future<Either<Failure, DepartmentModel>> createDepartment({required CreateDepartmentProps props}) async {
     try {
       return right( await datasource.createDepartment(props: props));
     } on ServerException catch (e) {

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -45,7 +44,7 @@ class TaskDatasource implements ITaskDatasource {
       }
 
       throw ServerException(
-        message: e.message,
+        message: AppTexts.internalError,
         code: e.response?.statusCode?.toString() ?? '',
       );
     }
@@ -57,7 +56,11 @@ class TaskDatasource implements ITaskDatasource {
       final response = await client.delete(
         params: HttpDeleteParams(
           path: '/task',
-          data: {props},
+          data: {
+            "id": props.id,
+            "fatherId": props.fatherId,
+            "previusId": props.previusId
+          },
         ),
       );
 
@@ -75,7 +78,7 @@ class TaskDatasource implements ITaskDatasource {
       }
 
       throw ServerException(
-        message: e.message,
+        message: AppTexts.internalError,
         code: e.response?.statusCode?.toString() ?? '',
       );
     }
@@ -104,7 +107,7 @@ class TaskDatasource implements ITaskDatasource {
       }
 
       throw ServerException(
-        message: e.message,
+        message: AppTexts.internalError,
         code: e.response?.statusCode?.toString() ?? '',
       );
     }
@@ -116,7 +119,17 @@ class TaskDatasource implements ITaskDatasource {
       final response = await client.put(
         params: HttpPutParams(
           path: '/task',
-          data: {props},
+          data: {
+            "id": props.id,
+            "previusId": props.previusId,
+            "fatherId": props.fatherId,
+            "name": props.name,
+            "description": props.description,
+            "assignedTo": props.assignedTo,
+            "documentation": props.documentation,
+            "systems": props.systems,
+            "status": props.status
+          },
         ),
       );
 
@@ -134,7 +147,7 @@ class TaskDatasource implements ITaskDatasource {
       }
 
       throw ServerException(
-        message: e.message,
+        message: AppTexts.internalError,
         code: e.response?.statusCode?.toString() ?? '',
       );
     }
@@ -167,13 +180,12 @@ class TaskDatasource implements ITaskDatasource {
         code: response.statusCode.toString(),
       );
     } on DioError catch (e) {
-      print('error $e');
       if (e.error is SocketException) {
         throw const ServerException.noConnection();
       }
 
       throw ServerException(
-        message: e.message,
+        message: AppTexts.internalError,
         code: e.response?.statusCode?.toString() ?? '',
       );
     }

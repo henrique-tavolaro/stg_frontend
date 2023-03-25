@@ -16,17 +16,19 @@ class DepartmentDatasource implements IDepartmentDatasource {
   DepartmentDatasource(this.client);
 
   @override
-  Future<Unit> createDepartment({required CreateDepartmentProps props}) async {
+  Future<DepartmentModel> createDepartment({required CreateDepartmentProps props}) async {
     try {
       final response = await client.post(
         params: HttpPostParams(
           path: '/department',
-          data: {props},
+          data: {
+            "name": props.name
+          },
         ),
       );
 
       if (response.statusCode == 201) {
-        return unit;
+        return DepartmentModel.fromJson(response.data);
       }
 
       throw ServerException(
@@ -39,7 +41,7 @@ class DepartmentDatasource implements IDepartmentDatasource {
       }
 
       throw ServerException(
-        message: e.message,
+        message: AppTexts.internalError,
         code: e.response?.statusCode?.toString() ?? '',
       );
     }
@@ -51,7 +53,9 @@ class DepartmentDatasource implements IDepartmentDatasource {
       final response = await client.delete(
         params: HttpDeleteParams(
           path: '/department',
-          data: {props},
+          data: {
+            "id": props.id
+          },
         ),
       );
 
@@ -69,7 +73,7 @@ class DepartmentDatasource implements IDepartmentDatasource {
       }
 
       throw ServerException(
-        message: e.message,
+        message: AppTexts.internalError,
         code: e.response?.statusCode?.toString() ?? '',
       );
     }
@@ -99,7 +103,7 @@ class DepartmentDatasource implements IDepartmentDatasource {
       }
 
       throw ServerException(
-        message: e.message,
+        message: AppTexts.internalError,
         code: e.response?.statusCode?.toString() ?? '',
       );
     }
@@ -136,7 +140,7 @@ class DepartmentDatasource implements IDepartmentDatasource {
       }
 
       throw ServerException(
-        message: e.message,
+        message: AppTexts.internalError,
         code: e.response?.statusCode?.toString() ?? '',
       );
     }

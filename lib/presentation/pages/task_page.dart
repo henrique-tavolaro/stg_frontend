@@ -2,29 +2,36 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stg_frontend/core/config/injection.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/I_task_datasource.dart';
-import 'package:stg_frontend/presentation/cubit/task/task_list_cubit.dart';
+import 'package:stg_frontend/presentation/cubit/task_list/task_list_cubit.dart';
 
+class TaskPage extends StatelessWidget {
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final String department;
+
+  const TaskPage({Key? key, required this.department}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<TaskListCubit>()..fetchTasks(),
-      child: const HomePageView(),
+      child: TaskPageView(department: department,),
     );
   }
 }
 
-class HomePageView extends StatelessWidget {
-  const HomePageView({Key? key}) : super(key: key);
+class TaskPageView extends StatelessWidget {
+
+  final String department;
+
+  const TaskPageView({Key? key, required this.department}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text(department),),
       body: BlocBuilder<TaskListCubit, TaskListState>(
         builder: (context, state){
           switch(state.status) {
@@ -38,7 +45,9 @@ class HomePageView extends StatelessWidget {
                   itemCount: state.taskList.length,
                   itemBuilder: (context, index){
                     final item = state.taskList[index];
-                    return Text(item.name);
+                    return InkWell(
+                        onTap: () => context.go('/tasks_page', extra: item.name),
+                        child: Text(item.name));
                   });
             case TaskListStatus.failure:
               return Center(child: Text(state.errorMessage.toString()),);

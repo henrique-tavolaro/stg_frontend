@@ -7,7 +7,7 @@ part 'department_model.g.dart';
 @freezed
 class DepartmentModel extends DepartmentEntity with _$DepartmentModel {
   const factory DepartmentModel({
-    required String id,
+    @JsonKey(name: '_id') required String id,
     required String name,
     required DateTime createdAt,
     DateTime? deletedAt,
