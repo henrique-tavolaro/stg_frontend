@@ -190,4 +190,42 @@ class TaskDatasource implements ITaskDatasource {
       );
     }
   }
+
+  @override
+  Future<List<TaskModel>> fetchTasksByDepartment({required FetchTasksByDepartmentProps props}) async {
+    try {
+      var tasks = <TaskModel>[];
+      final response = await client.get(
+        params: HttpGetParams(
+            path: '/tasks/${props.name}',
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data as List;
+
+        if(data.isNotEmpty) {
+          tasks = data.map<TaskModel>((task) {
+            final item = TaskModel.fromJson(task);
+            return item;
+          }).toList();
+        }
+        return tasks;
+      }
+
+      throw ServerException(
+        message: AppTexts.internalError,
+        code: response.statusCode.toString(),
+      );
+    } on DioError catch (e) {
+      if (e.error is SocketException) {
+        throw const ServerException.noConnection();
+      }
+
+      throw ServerException(
+        message: AppTexts.internalError,
+        code: e.response?.statusCode?.toString() ?? '',
+      );
+    }
+  }
 }

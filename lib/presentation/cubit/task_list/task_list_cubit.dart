@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:stg_frontend/core/use_case/use_case.dart';
 import 'package:stg_frontend/domain/use_cases/task/create_task_use_case.dart';
 import 'package:stg_frontend/domain/use_cases/task/delete_task_use_case.dart.dart';
+import 'package:stg_frontend/domain/use_cases/task/fetch_tasks_by_department_use_case.dart';
 import 'package:stg_frontend/domain/use_cases/task/fetch_tasks_use_case.dart';
 import 'package:stg_frontend/domain/use_cases/task/update_task_use_case.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/I_task_datasource.dart';
@@ -17,11 +18,12 @@ class TaskListCubit extends Cubit<TaskListState> {
   final DeleteTaskUseCase deleteTaskUseCase;
   final CreateTaskUseCase createTaskUseCase;
   final UpdateTaskUseCase updateTaskUseCase;
+  final FetchTasksByDepartmentUseCase fetchTasksByDepartmentUseCase;
 
   TaskListCubit(this.fetchTasksUseCase,
       this.deleteTaskUseCase,
       this.createTaskUseCase,
-      this.updateTaskUseCase,) : super(const TaskListState());
+      this.updateTaskUseCase, this.fetchTasksByDepartmentUseCase,) : super(const TaskListState());
 
   Future<void> fetchTasks() async {
     emit(state.copyWith(status: TaskListStatus.loading));
@@ -69,6 +71,21 @@ class TaskListCubit extends Cubit<TaskListState> {
             status: TaskListStatus.loaded, taskList: updatedTaskList,),);
 
         }
+    );
+  }
+
+
+  Future<void> fetchTasksByDepartment({required FetchTasksByDepartmentProps props}) async {
+    emit(state.copyWith(status: TaskListStatus.loading));
+
+    final inputEither = await fetchTasksByDepartmentUseCase(props: props);
+
+    inputEither.fold(
+          (l) =>
+          emit(state.copyWith(
+              status: TaskListStatus.failure, errorMessage: l.message)),
+          (r) =>
+          emit(state.copyWith(status: TaskListStatus.loaded, taskList: r)),
     );
   }
 }

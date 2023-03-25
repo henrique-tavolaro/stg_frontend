@@ -16,4 +16,6 @@ abstract class ITaskRepository {
   Future<Either<Failure, Unit>> updateTask({required UpdateTaskProps props});
 
   Future<Either<Failure, List<TaskModel>>> fetchTasks();
+
+  Future<Either<Failure, List<TaskModel>>> fetchTasksByDepartment({required FetchTasksByDepartmentProps props});
 }

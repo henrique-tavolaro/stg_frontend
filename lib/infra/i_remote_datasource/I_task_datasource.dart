@@ -12,6 +12,14 @@ abstract class ITaskDatasource {
   Future<Unit> updateTask({required UpdateTaskProps props});
 
   Future<List<TaskModel>> fetchTasks();
+
+  Future<List<TaskModel>> fetchTasksByDepartment({required FetchTasksByDepartmentProps props});
+}
+
+class FetchTasksByDepartmentProps {
+  final String name;
+
+  FetchTasksByDepartmentProps(this.name);
 }
 
 class UpdateTaskProps {

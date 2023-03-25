@@ -59,4 +59,14 @@ class TaskRepository implements ITaskRepository{
     return left(ServerFailure(message: e.message, code: e.code));
     }
   }
+
+
+  @override
+  Future<Either<Failure, List<TaskModel>>> fetchTasksByDepartment({required FetchTasksByDepartmentProps props}) async {
+    try {
+      return right( await datasource.fetchTasksByDepartment(props: props));
+    } on ServerException catch (e) {
+      return left(ServerFailure(message: e.message, code: e.code));
+    }
+  }
 }

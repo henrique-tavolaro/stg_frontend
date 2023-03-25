@@ -7,26 +7,26 @@ import 'package:stg_frontend/core/config/injection.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/I_task_datasource.dart';
 import 'package:stg_frontend/presentation/cubit/task_list/task_list_cubit.dart';
 
-class TaskPage extends StatelessWidget {
+class DepartmentDetailsPage extends StatelessWidget {
 
   final String department;
 
-  const TaskPage({Key? key, required this.department}) : super(key: key);
+  const DepartmentDetailsPage({Key? key, required this.department}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<TaskListCubit>()..fetchTasks(),
-      child: TaskPageView(department: department,),
+      create: (_) => getIt<TaskListCubit>()..fetchTasksByDepartment(props: FetchTasksByDepartmentProps(department)),
+      child: DepartmentDetailsView(department: department,),
     );
   }
 }
 
-class TaskPageView extends StatelessWidget {
+class DepartmentDetailsView extends StatelessWidget {
 
   final String department;
 
-  const TaskPageView({Key? key, required this.department}) : super(key: key);
+  const DepartmentDetailsView({Key? key, required this.department}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
