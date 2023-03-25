@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stg_frontend/core/constants/app_texts.dart';
 import 'package:stg_frontend/core/design_system/app_colors.dart';
+import 'package:stg_frontend/core/utils/snackbar.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/i_department_datasource.dart';
 import 'package:stg_frontend/presentation/cubit/department_list/department_list_cubit.dart';
 import 'package:stg_frontend/presentation/pages/widgets/alert_dialog_textfield.dart';
 import 'package:stg_frontend/presentation/pages/home/widgets/department_list_tile.dart';
 import 'package:stg_frontend/presentation/pages/home/widgets/empty_page.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/config/injection.dart';
+import 'package:stg_frontend/core/config/injection.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -45,60 +46,34 @@ class _DepartmentPageViewState extends State<DepartmentPageView> {
         backgroundColor: AppColor.grey200,
         body: BlocConsumer<DepartmentListCubit, DepartmentListState>(
           listener: (context, state) {
-            switch (state.status) {
-              case DepartmentListStatus.initial:
-                () => {};
-                break;
-              case DepartmentListStatus.loading:
-                () => {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Row(
-                            children: const [
-                              CircularProgressIndicator(),
-                              // indicador de carregamento
-                              SizedBox(width: 10),
-                              // espaço entre o indicador e o texto
-                              Text("Carregando..."),
-                            ],
-                          ),
-                        ),
-                      )
-                    };
-                break;
-              case DepartmentListStatus.loaded:
-                () => {};
-                break;
-              case DepartmentListStatus.failure:
-                () => {};
-            }
-          },
+    state.maybeWhen(
+        created: () => showSnackbar(context, AppTexts.areaCreated),
+        failed: (_) => showSnackbar(context, AppTexts.internalError),
+        orElse: (){});
+    },
           builder: (context, state) {
-            switch (state.status) {
-              case DepartmentListStatus.initial:
-                return const EmptyPage();
-              case DepartmentListStatus.loaded:
-                if (state.departmentList.isEmpty) {
-                  return const EmptyPage();
-                } else {
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: state.departmentList.length,
-                      itemBuilder: (context, index) {
-                        final item = state.departmentList[index];
-                        return DepartmentListTile(
-                          title: item.name,
-                          index: index,
-                          onClick: () async =>
-                              context.go('/tasks_page', extra: item.name),
-                        );
-                      });
-                }
-              case DepartmentListStatus.failure:
-                return const EmptyPage();
-              case DepartmentListStatus.loading:
-                return const EmptyPage();
-            }
+            return state.maybeWhen(
+                loaded: (departmentList) {
+                  if (departmentList.isEmpty) {
+                    return const EmptyPage();
+                  } else {
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: departmentList.length,
+                        itemBuilder: (context, index) {
+                          final item = departmentList[index];
+                          return DepartmentListTile(
+                            title: item.name,
+                            index: index,
+                            onClick: () async =>
+                                context.push('/tasks_page', extra: item.name),
+                          );
+                        });
+                  }},
+                loading: () => const Center(child: CircularProgressIndicator(),),
+                creating: () => const Center(child: CircularProgressIndicator(),),
+                orElse: () => const EmptyPage()
+            );
           },
         ),
         floatingActionButton: FloatingActionButton.extended(
@@ -108,14 +83,18 @@ class _DepartmentPageViewState extends State<DepartmentPageView> {
                 builder: (context) {
                   return MyAlertDialogTextfield(
                     controller: _textEditingController,
-                    onClick: () {
+                    onClick: () async  {
                       final text = _textEditingController.text;
 
-                      getIt<DepartmentListCubit>().createDepartmentUseCase(
-                          props: CreateDepartmentProps(text));
-                      Navigator.of(context).pop();
-                      _textEditingController.clear();
-                    }, text: AppTexts.areaRegister,
+                      if(text.isNotEmpty){
+                        getIt<DepartmentListCubit>().createDepartment(
+                            props: CreateDepartmentProps(text));
+                        Navigator.of(context).pop();
+                        _textEditingController.clear();
+                      }
+
+                    },
+                    text: AppTexts.areaRegister,
                   );
                 });
           },

@@ -1,47 +1,12 @@
 part of 'department_list_cubit.dart';
 
-enum DepartmentListStatus {
-  initial,
-  loading,
-  loaded,
-  failure
-}
+@freezed
+class DepartmentListState with _$DepartmentListState {
+  const factory DepartmentListState.initial() = _Initial;
+  const factory DepartmentListState.loading() = _Loading;
+  const factory DepartmentListState.loaded({required List<DepartmentModel> departmentList}) = _Loaded;
+  const factory DepartmentListState.failed(String message) = _Failed;
 
-extension DepartmentListStatusX on DepartmentListStatus {
-  bool get isInitial => this == DepartmentListStatus.initial;
-
-  bool get isLoading => this == DepartmentListStatus.loading;
-
-  bool get isSuccess => this == DepartmentListStatus.loaded;
-
-  bool get isFailure => this == DepartmentListStatus.failure;
-}
-
-class DepartmentListState extends Equatable {
-
-  final DepartmentListStatus status;
-  final List<DepartmentModel> departmentList;
-  final String? errorMessage;
-
-  const DepartmentListState({
-    this.status = DepartmentListStatus.initial,
-    this.departmentList = const [],
-    this.errorMessage,
-  });
-
-  DepartmentListState copyWith({
-    DepartmentListStatus? status,
-    List<DepartmentModel>? departmentList,
-    String? errorMessage,
-  }) {
-    return DepartmentListState(
-      status: status ?? this.status,
-      errorMessage: errorMessage ?? this.errorMessage,
-      departmentList: departmentList ?? this.departmentList,
-    );
-  }
-
-  @override
-  List<Object?> get props => [status, departmentList, errorMessage];
-
+  const factory DepartmentListState.creating() = _Creating;
+  const factory DepartmentListState.created() = _Created;
 }
