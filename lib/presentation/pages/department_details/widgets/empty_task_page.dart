@@ -9,13 +9,8 @@ class EmptyTaskPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-        children: [
-
-          Center(
-            child: const Text(AppTexts.zeroTasks).h4(),
-          ),
-        ]);
+    return Center(
+      child: const Text(AppTexts.zeroTasks).h4(),
+    );
   }
 }

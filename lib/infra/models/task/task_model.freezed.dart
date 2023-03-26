@@ -26,12 +26,10 @@ mixin _$TaskModel {
   String? get fatherId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get department => throw _privateConstructorUsedError;
-  String? get description => throw _privateConstructorUsedError;
   List<String> get assignedTo => throw _privateConstructorUsedError;
   String? get documentation => throw _privateConstructorUsedError;
   List<String> get systems => throw _privateConstructorUsedError;
   List<String> get tasks => throw _privateConstructorUsedError;
-  TaskStatus get status => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime? get deletedAt => throw _privateConstructorUsedError;
 
@@ -52,12 +50,10 @@ abstract class $TaskModelCopyWith<$Res> {
       String? fatherId,
       String name,
       String department,
-      String? description,
       List<String> assignedTo,
       String? documentation,
       List<String> systems,
       List<String> tasks,
-      TaskStatus status,
       DateTime createdAt,
       DateTime? deletedAt});
 }
@@ -80,12 +76,10 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
     Object? fatherId = freezed,
     Object? name = null,
     Object? department = null,
-    Object? description = freezed,
     Object? assignedTo = null,
     Object? documentation = freezed,
     Object? systems = null,
     Object? tasks = null,
-    Object? status = null,
     Object? createdAt = null,
     Object? deletedAt = freezed,
   }) {
@@ -110,10 +104,6 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
           ? _value.department
           : department // ignore: cast_nullable_to_non_nullable
               as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
       assignedTo: null == assignedTo
           ? _value.assignedTo
           : assignedTo // ignore: cast_nullable_to_non_nullable
@@ -130,10 +120,6 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
           ? _value.tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as TaskStatus,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -159,12 +145,10 @@ abstract class _$$_TaskModelCopyWith<$Res> implements $TaskModelCopyWith<$Res> {
       String? fatherId,
       String name,
       String department,
-      String? description,
       List<String> assignedTo,
       String? documentation,
       List<String> systems,
       List<String> tasks,
-      TaskStatus status,
       DateTime createdAt,
       DateTime? deletedAt});
 }
@@ -185,12 +169,10 @@ class __$$_TaskModelCopyWithImpl<$Res>
     Object? fatherId = freezed,
     Object? name = null,
     Object? department = null,
-    Object? description = freezed,
     Object? assignedTo = null,
     Object? documentation = freezed,
     Object? systems = null,
     Object? tasks = null,
-    Object? status = null,
     Object? createdAt = null,
     Object? deletedAt = freezed,
   }) {
@@ -215,10 +197,6 @@ class __$$_TaskModelCopyWithImpl<$Res>
           ? _value.department
           : department // ignore: cast_nullable_to_non_nullable
               as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
       assignedTo: null == assignedTo
           ? _value._assignedTo
           : assignedTo // ignore: cast_nullable_to_non_nullable
@@ -235,10 +213,6 @@ class __$$_TaskModelCopyWithImpl<$Res>
           ? _value._tasks
           : tasks // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as TaskStatus,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -260,12 +234,10 @@ class _$_TaskModel implements _TaskModel {
       this.fatherId,
       required this.name,
       required this.department,
-      this.description,
       required final List<String> assignedTo,
       this.documentation,
       required final List<String> systems,
       required final List<String> tasks,
-      required this.status,
       required this.createdAt,
       this.deletedAt})
       : _assignedTo = assignedTo,
@@ -286,8 +258,6 @@ class _$_TaskModel implements _TaskModel {
   final String name;
   @override
   final String department;
-  @override
-  final String? description;
   final List<String> _assignedTo;
   @override
   List<String> get assignedTo {
@@ -315,15 +285,13 @@ class _$_TaskModel implements _TaskModel {
   }
 
   @override
-  final TaskStatus status;
-  @override
   final DateTime createdAt;
   @override
   final DateTime? deletedAt;
 
   @override
   String toString() {
-    return 'TaskModel(id: $id, previusId: $previusId, fatherId: $fatherId, name: $name, department: $department, description: $description, assignedTo: $assignedTo, documentation: $documentation, systems: $systems, tasks: $tasks, status: $status, createdAt: $createdAt, deletedAt: $deletedAt)';
+    return 'TaskModel(id: $id, previusId: $previusId, fatherId: $fatherId, name: $name, department: $department, assignedTo: $assignedTo, documentation: $documentation, systems: $systems, tasks: $tasks, createdAt: $createdAt, deletedAt: $deletedAt)';
   }
 
   @override
@@ -339,15 +307,12 @@ class _$_TaskModel implements _TaskModel {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.department, department) ||
                 other.department == department) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
             const DeepCollectionEquality()
                 .equals(other._assignedTo, _assignedTo) &&
             (identical(other.documentation, documentation) ||
                 other.documentation == documentation) &&
             const DeepCollectionEquality().equals(other._systems, _systems) &&
             const DeepCollectionEquality().equals(other._tasks, _tasks) &&
-            (identical(other.status, status) || other.status == status) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.deletedAt, deletedAt) ||
@@ -363,12 +328,10 @@ class _$_TaskModel implements _TaskModel {
       fatherId,
       name,
       department,
-      description,
       const DeepCollectionEquality().hash(_assignedTo),
       documentation,
       const DeepCollectionEquality().hash(_systems),
       const DeepCollectionEquality().hash(_tasks),
-      status,
       createdAt,
       deletedAt);
 
@@ -393,12 +356,10 @@ abstract class _TaskModel implements TaskModel {
       final String? fatherId,
       required final String name,
       required final String department,
-      final String? description,
       required final List<String> assignedTo,
       final String? documentation,
       required final List<String> systems,
       required final List<String> tasks,
-      required final TaskStatus status,
       required final DateTime createdAt,
       final DateTime? deletedAt}) = _$_TaskModel;
 
@@ -417,8 +378,6 @@ abstract class _TaskModel implements TaskModel {
   @override
   String get department;
   @override
-  String? get description;
-  @override
   List<String> get assignedTo;
   @override
   String? get documentation;
@@ -426,8 +385,6 @@ abstract class _TaskModel implements TaskModel {
   List<String> get systems;
   @override
   List<String> get tasks;
-  @override
-  TaskStatus get status;
   @override
   DateTime get createdAt;
   @override

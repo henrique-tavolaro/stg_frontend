@@ -9,14 +9,14 @@ import 'package:stg_frontend/infra/i_remote_datasource/I_task_datasource.dart';
 import 'package:stg_frontend/infra/models/task/task_model.dart';
 
 @injectable
-class FetchTasksUseCase implements UseCase<List<TaskModel>, NoProps> {
+class FetchTasksUseCase implements UseCase<List<TaskModel>, FetchTasksProps> {
 
   final ITaskRepository repository;
 
   FetchTasksUseCase(this.repository);
 
   @override
-  Future<Either<Failure, List<TaskModel>>> call({required NoProps props}) {
-    return repository.fetchTasks();
+  Future<Either<Failure, List<TaskModel>>> call({required FetchTasksProps props}) {
+    return repository.fetchTasks(props: props);
   }
 }

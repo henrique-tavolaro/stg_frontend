@@ -6,45 +6,31 @@ import 'package:stg_frontend/core/constants/app_texts.dart';
 import 'package:stg_frontend/core/design_system/app_colors.dart';
 import 'package:stg_frontend/core/utils/snackbar.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/I_task_datasource.dart';
-import 'package:stg_frontend/infra/models/task/task_model.dart';
 import 'package:stg_frontend/presentation/cubit/task_list/task_list_cubit.dart';
 import 'package:stg_frontend/presentation/pages/department_details/widgets/empty_task_page.dart';
 import 'package:stg_frontend/presentation/pages/widgets/alert_dialog_textfield.dart';
 import 'package:stg_frontend/presentation/pages/widgets/task_list_tile.dart';
 
-class DepartmentDetailsPage extends StatelessWidget {
+class DepartmentDetailsPage extends StatefulWidget {
   final String department;
 
   const DepartmentDetailsPage({Key? key, required this.department})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return
-      BlocProvider(
-      create: (_) => getIt<TaskListCubit>()
-        ..fetchTasksByDepartment(
-            props: FetchTasksByDepartmentProps(department)),
-      child: DepartmentDetailsView(
-        department: department,
-      ),
-    );
-  }
+  State<DepartmentDetailsPage> createState() => _DepartmentDetailsPageState();
 }
 
-class DepartmentDetailsView extends StatefulWidget {
-  final String department;
+class _DepartmentDetailsPageState extends State<DepartmentDetailsPage> {
 
-  const DepartmentDetailsView({Key? key, required this.department})
-      : super(key: key);
-
-  @override
-  State<DepartmentDetailsView> createState() => _DepartmentDetailsViewState();
-}
-
-class _DepartmentDetailsViewState extends State<DepartmentDetailsView> {
   final TextEditingController _textEditingController = TextEditingController();
   late TaskListCubit cubit;
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
   @override
   void initState() {
     cubit = getIt<TaskListCubit>()
@@ -53,11 +39,6 @@ class _DepartmentDetailsViewState extends State<DepartmentDetailsView> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    _textEditingController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,41 +57,41 @@ class _DepartmentDetailsViewState extends State<DepartmentDetailsView> {
           bloc: cubit,
           listener: (context, state) {
             state.maybeWhen(
-            created: () => showSnackbar(context, AppTexts.taskCreated),
-            failed: (_) => showSnackbar(context, AppTexts.internalError),
+                created: () => showSnackbar(context, AppTexts.taskCreated),
+                failed: (_) => showSnackbar(context, AppTexts.internalError),
                 deleted: () => showSnackbar(context, AppTexts.taskDeleted),
                 orElse: (){});
           },
           builder: (context, state) {
             return state.maybeWhen(
-              initial: () => const SizedBox.shrink(),
-              orElse: () => const Center(child: EmptyTaskPage()),
-              loading: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              loaded: (taskList) {
-                if(taskList.isEmpty){
-                  return  const EmptyTaskPage();
-                } else {
-                 return  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: taskList.length,
-                    itemBuilder: (context, index) {
-                      final item = taskList[index];
-                      return TaskListTile(
-                        task: item,
-                        onClick: () async {
-                          final String? result = await context.push<String>('/task_details', extra: item);
-                          if(result != null){
-                           cubit.deleteTask(props: DeleteTaskProps(result, null, null));
-                          }
-                        },
-                      );
-                    },
-                  );
-                }
+                initial: () => const SizedBox.shrink(),
+                orElse: () => const EmptyTaskPage(),
+                loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                loaded: (taskList) {
+                  if(taskList.isEmpty){
+                    return  const EmptyTaskPage();
+                  } else {
+                    return  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: taskList.length,
+                      itemBuilder: (context, index) {
+                        final item = taskList[index];
+                        return TaskListTile(
+                          task: item,
+                          onClick: () async {
+                            final String? result = await context.push<String>('/task_details', extra: item);
+                            if(result != null){
+                              cubit.deleteTask(props: DeleteTaskProps(result, null, null));
+                            }
+                          },
+                        );
+                      },
+                    );
+                  }
 
-              }
+                }
             );
           },
         ),

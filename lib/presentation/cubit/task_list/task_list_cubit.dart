@@ -7,7 +7,6 @@ import 'package:stg_frontend/domain/use_cases/task/fetch_tasks_by_department_use
 import 'package:stg_frontend/domain/use_cases/task/fetch_tasks_use_case.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/I_task_datasource.dart';
 import 'package:stg_frontend/infra/models/task/task_model.dart';
-import 'package:stg_frontend/presentation/cubit/task_details/task_details_cubit.dart';
 
 part 'task_list_state.dart';
 
@@ -26,10 +25,18 @@ class TaskListCubit extends Cubit<TaskListState> {
 
   List<TaskModel> taskList = [];
 
-  Future<void> fetchTasks() async {
-    // emit(TaskListState.loading());
-    //
-    // final inputEither = await fe
+  Future<void> fetchTasks({required FetchTasksProps props}) async {
+    emit(const TaskListState.loading());
+
+    final inputEither = await fetchTasksUseCase(props: props);
+
+    inputEither.fold(
+          (l) => emit(TaskListState.failed(l.message)),
+          (r) {
+        taskList.addAll(r);
+        emit(TaskListState.loaded(taskList: taskList));
+      },
+    );
   }
 
   Future<void> createTask({required CreateTaskProps props}) async {

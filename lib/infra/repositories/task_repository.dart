@@ -52,9 +52,9 @@ class TaskRepository implements ITaskRepository{
   }
 
   @override
-  Future<Either<Failure, List<TaskModel>>> fetchTasks() async {
+  Future<Either<Failure, List<TaskModel>>> fetchTasks({required FetchTasksProps props}) async {
     try {
-      return right( await datasource.fetchTasks());
+      return right( await datasource.fetchTasks(props: props));
     } on ServerException catch (e) {
     return left(ServerFailure(message: e.message, code: e.code));
     }

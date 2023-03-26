@@ -85,11 +85,8 @@ _i1.GetIt init(
       () => _i16.DepartmentDatasource(gh<_i3.IHttpClient>()));
   gh.factory<_i17.IDepartmentRepository>(
       () => _i18.DepartmentRepository(gh<_i15.IDepartmentDatasource>()));
-  gh.singleton<_i19.TaskDetailsCubit>(_i19.TaskDetailsCubit(
-    gh<_i12.FetchTaskUseCase>(),
-    gh<_i11.DeleteTaskUseCase>(),
-    gh<_i9.UpdateTaskUseCase>(),
-  ));
+  gh.factory<_i19.TaskDetailsCubit>(
+      () => _i19.TaskDetailsCubit(gh<_i9.UpdateTaskUseCase>()));
   gh.factory<_i20.TaskListCubit>(() => _i20.TaskListCubit(
         gh<_i14.FetchTasksUseCase>(),
         gh<_i10.CreateTaskUseCase>(),

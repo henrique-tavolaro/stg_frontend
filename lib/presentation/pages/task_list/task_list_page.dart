@@ -28,8 +28,8 @@ class _TaskListPageState extends State<TaskListPage> {
   @override
   void initState() {
     cubit = getIt<TaskListCubit>()
-      ..fetchTasksByDepartment(
-          props: FetchTasksByDepartmentProps(widget.task.name));
+      ..fetchTasks(
+          props: FetchTasksProps(widget.task.id));
 
     super.initState();
   }
@@ -67,7 +67,7 @@ class _TaskListPageState extends State<TaskListPage> {
           builder: (context, state) {
             return state.maybeWhen(
                 initial: () => const SizedBox.shrink(),
-                orElse: () => const Center(child: EmptyTaskPage()),
+                orElse: () => const EmptyTaskPage(),
                 loading: () => const Center(
                       child: CircularProgressIndicator(),
                     ),

@@ -124,11 +124,9 @@ class TaskDatasource implements ITaskDatasource {
             "previusId": props.previusId,
             "fatherId": props.fatherId,
             "name": props.name,
-            "description": props.description,
             "assignedTo": props.assignedTo,
             "documentation": props.documentation,
             "systems": props.systems,
-            "status": props.status
           },
         ),
       );
@@ -154,12 +152,12 @@ class TaskDatasource implements ITaskDatasource {
   }
 
   @override
-  Future<List<TaskModel>> fetchTasks() async {
+  Future<List<TaskModel>> fetchTasks({required FetchTasksProps props}) async {
     try {
       var tasks = <TaskModel>[];
       final response = await client.get(
         params: HttpGetParams(
-            path: '/tasks'
+            path: '/tasks/${props.id}'
         ),
       );
 
@@ -194,12 +192,15 @@ class TaskDatasource implements ITaskDatasource {
   @override
   Future<List<TaskModel>> fetchTasksByDepartment({required FetchTasksByDepartmentProps props}) async {
     try {
+
       var tasks = <TaskModel>[];
       final response = await client.get(
         params: HttpGetParams(
-            path: '/tasks/${props.name}',
+            path: '/tasksdepartment/${props.name}',
         ),
       );
+
+      print('REPSONSE: ${response.data}');
 
       if (response.statusCode == 200) {
         final data = response.data as List;
