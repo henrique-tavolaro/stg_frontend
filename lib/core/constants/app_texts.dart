@@ -30,5 +30,6 @@ class AppTexts {
   static const select = "Selecione";
   static const systems = "Sistemas";
   static const seeAllTasks = "Ver todos os processos de ";
+  static const updateFirst = "Salve as alterações antes de prosseguir";
 
 }

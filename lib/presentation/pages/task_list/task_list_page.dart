@@ -9,7 +9,7 @@ import 'package:stg_frontend/infra/i_remote_datasource/I_task_datasource.dart';
 import 'package:stg_frontend/infra/models/task/task_model.dart';
 import 'package:stg_frontend/presentation/cubit/task_list/task_list_cubit.dart';
 import 'package:stg_frontend/presentation/pages/department_details/widgets/empty_task_page.dart';
-import 'package:stg_frontend/presentation/pages/widgets/alert_dialog_textfield.dart';
+import 'package:stg_frontend/presentation/pages/widgets/custom_floating_action_button.dart';
 import 'package:stg_frontend/presentation/pages/widgets/task_list_tile.dart';
 
 class TaskListPage extends StatefulWidget {
@@ -49,7 +49,7 @@ class _TaskListPageState extends State<TaskListPage> {
           automaticallyImplyLeading: false,
           leading: IconButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                context.pop();
               },
               icon: const Icon(Icons.arrow_back)),
           title: Text(widget.task.name.toUpperCase()),
@@ -68,9 +68,10 @@ class _TaskListPageState extends State<TaskListPage> {
             return state.maybeWhen(
                 initial: () => const SizedBox.shrink(),
                 orElse: () => const EmptyTaskPage(),
-                loading: () => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                loading: () =>
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
                 loaded: (taskList) {
                   if (taskList.isEmpty) {
                     return const EmptyTaskPage();
@@ -92,37 +93,27 @@ class _TaskListPageState extends State<TaskListPage> {
                 });
           },
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return MyAlertDialogTextfield(
-                    controller: _textEditingController,
-                    onClick: () {
-                      final text = _textEditingController.text;
+        floatingActionButton: CustomFloatingActionButton(
+          textEditingController: _textEditingController,
+          onClick: () async {
 
-                      if (text.isNotEmpty) {
-                        cubit.createTask(
-                          props: CreateTaskProps(
-                            text,
-                            widget.task.department,
-                            widget.task.id,
-                            widget.task.fatherId ?? widget.task.id,
-                          ),
-                        );
-                        Navigator.of(context).pop();
-                        _textEditingController.clear();
-                      }
-                    },
-                    text: AppTexts.taskRegister,
-                  );
-                });
+            final text = _textEditingController.text;
+
+            if (text.isNotEmpty) {
+              cubit.createTask(
+                props: CreateTaskProps(
+                  text,
+                  widget.task.department,
+                  widget.task.id,
+                  widget.task.fatherId ?? widget.task.id,
+                ),
+              );
+              Navigator.of(context).pop();
+              _textEditingController.clear();
+            }
           },
-          backgroundColor: AppColor.purple600,
-          label: const Text(AppTexts.newTask),
-          icon: const Icon(Icons.add),
-        ),
+          dialogText: AppTexts.taskRegister,
+          buttonText: AppTexts.newTask,),
       ),
     );
   }

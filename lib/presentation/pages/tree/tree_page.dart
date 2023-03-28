@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stg_frontend/core/config/injection.dart';
 import 'package:stg_frontend/core/design_system/app_colors.dart';
 import 'package:stg_frontend/core/design_system/app_textstyle.dart';
@@ -35,7 +36,7 @@ class _TreePageState extends State<TreePage> {
           automaticallyImplyLeading: false,
           leading: IconButton(
               onPressed: () {
-                Navigator.of(context).pop();
+                context.pop();
               },
               icon: const Icon(Icons.arrow_back)),
           title: Text(widget.department.toUpperCase()),
@@ -54,16 +55,16 @@ class _TreePageState extends State<TreePage> {
                     for (final tree in treeList)
                       tree.treeList.isNotEmpty
                           ? Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8.0,
-                vertical: 2,
-              ),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                                vertical: 2,
+                              ),
                               child: ExpansionTile(
                                 backgroundColor: AppColor.grey400,
                                 collapsedBackgroundColor: AppColor.grey400,
                                 textColor: Colors.black,
                                 iconColor: Colors.black,
-                                 title: Text(tree.name).h3(
+                                title: Text(tree.name).h3(
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold)),
                                 children: [
@@ -109,11 +110,10 @@ class _TreePageState extends State<TreePage> {
         ? Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: ExpansionTile(
-              backgroundColor: colorList[index - 1 < 0 ? 0 : index - 1 ],
+              backgroundColor: colorList[index - 1 < 0 ? 0 : index - 1],
               collapsedBackgroundColor: colorList[index < 0 ? 0 : index],
               iconColor: Colors.black,
               textColor: Colors.black,
-
               title: Padding(
                 padding: EdgeInsets.only(left: padding),
                 child: Text(treeModel.name),
@@ -129,11 +129,10 @@ class _TreePageState extends State<TreePage> {
             ),
           )
         : Padding(
-      padding: const EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.only(left: 8.0),
             child: ListTile(
               tileColor: colorList[index < 0 ? 0 : index],
               textColor: Colors.black,
-
               title: Padding(
                 padding: EdgeInsets.only(left: padding),
                 child: Text(treeModel.name),
@@ -148,4 +147,28 @@ class _TreePageState extends State<TreePage> {
     AppColor.treeColor3,
     AppColor.treeColor4
   ];
+}
+
+class CustomExpansionTile extends StatelessWidget {
+  final Widget title;
+  final Color backgroundColor;
+  final Color colapsedBackgroundColor;
+  final Widget function;
+
+
+  const CustomExpansionTile({Key? key, required this.title, required this.backgroundColor, required this.colapsedBackgroundColor, required this.function}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      title: title,
+      backgroundColor: backgroundColor,
+      collapsedTextColor: colapsedBackgroundColor,
+      textColor: Colors.black,
+      iconColor: Colors.black,
+      children: [
+        function
+      ],
+    );
+  }
 }

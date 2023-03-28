@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stg_frontend/core/config/injection.dart';
 import 'package:stg_frontend/core/constants/app_texts.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/i_department_datasource.dart';
@@ -30,7 +31,7 @@ class MyAlertDialogTextfieldState extends State<MyAlertDialogTextfield> {
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            context.pop();
           },
           child: const Text(AppTexts.cancel),
         ),

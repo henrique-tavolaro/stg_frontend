@@ -10,6 +10,7 @@ import 'package:stg_frontend/presentation/pages/home/widgets/department_list_til
 import 'package:stg_frontend/presentation/pages/home/widgets/empty_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stg_frontend/core/config/injection.dart';
+import 'package:stg_frontend/presentation/pages/widgets/custom_floating_action_button.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,7 +18,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<DepartmentListCubit>()..fetchDepartments(),
+      create: (_) =>
+      getIt<DepartmentListCubit>()
+        ..fetchDepartments(),
       child: const DepartmentPageView(),
     );
   }
@@ -46,11 +49,11 @@ class _DepartmentPageViewState extends State<DepartmentPageView> {
         backgroundColor: AppColor.grey200,
         body: BlocConsumer<DepartmentListCubit, DepartmentListState>(
           listener: (context, state) {
-    state.maybeWhen(
-        created: () => showSnackbar(context, AppTexts.areaCreated),
-        failed: (_) => showSnackbar(context, AppTexts.internalError),
-        orElse: (){});
-    },
+            state.maybeWhen(
+                created: () => showSnackbar(context, AppTexts.areaCreated),
+                failed: (_) => showSnackbar(context, AppTexts.internalError),
+                orElse: () {});
+          },
           builder: (context, state) {
             return state.maybeWhen(
                 loaded: (departmentList) {
@@ -58,50 +61,41 @@ class _DepartmentPageViewState extends State<DepartmentPageView> {
                     return const EmptyPage();
                   } else {
                     return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: departmentList.length,
-                        itemBuilder: (context, index) {
-                          final item = departmentList[index];
-                          return DepartmentListTile(
-                            title: item.name,
-                            index: index,
-                            onClick: () async =>
-                                context.push('/tasks_page', extra: item.name),
-                          );
-                        });
-                  }},
-                loading: () => const Center(child: CircularProgressIndicator(),),
-                creating: () => const Center(child: CircularProgressIndicator(),),
-                orElse: () => const EmptyPage()
-            );
+                      shrinkWrap: true,
+                      itemCount: departmentList.length,
+                      itemBuilder: (context, index) {
+                        final item = departmentList[index];
+                        return DepartmentListTile(
+                          title: item.name,
+                          index: index,
+                          onClick: () async =>
+                              context.push('/tasks_page', extra: item.name),
+                        );
+                      },
+                    );
+                  }
+                },
+                loading: () =>
+                const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                orElse: () => const EmptyPage());
           },
         ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return MyAlertDialogTextfield(
-                    controller: _textEditingController,
-                    onClick: () async  {
-                      final text = _textEditingController.text;
+        floatingActionButton: CustomFloatingActionButton(
+          textEditingController: _textEditingController,
+          onClick: () async {
+            final text = _textEditingController.text;
 
-                      if(text.isNotEmpty){
-                        getIt<DepartmentListCubit>().createDepartment(
-                            props: CreateDepartmentProps(text));
-                        Navigator.of(context).pop();
-                        _textEditingController.clear();
-                      }
-
-                    },
-                    text: AppTexts.areaRegister,
-                  );
-                });
+            if (text.isNotEmpty) {
+              getIt<DepartmentListCubit>().createDepartment(
+                  props: CreateDepartmentProps(text));
+              context.pop();
+              _textEditingController.clear();
+            }
           },
-          backgroundColor: AppColor.purple600,
-          label: const Text(AppTexts.newArea),
-          icon: const Icon(Icons.add),
-        ),
+          dialogText: AppTexts.areaRegister,
+          buttonText: AppTexts.newArea,),
       ),
     );
   }

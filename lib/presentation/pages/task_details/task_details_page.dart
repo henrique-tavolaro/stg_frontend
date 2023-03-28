@@ -14,7 +14,6 @@ import 'package:stg_frontend/presentation/pages/task_details/widgets/custom_butt
 import 'package:stg_frontend/presentation/pages/widgets/alert_dialog.dart';
 import 'package:stg_frontend/presentation/pages/widgets/alert_dialog_textfield.dart';
 
-
 class TaskDetailsPage extends StatefulWidget {
   final TaskModel task;
 
@@ -27,7 +26,7 @@ class TaskDetailsPage extends StatefulWidget {
 class _TaskDetailsPageState extends State<TaskDetailsPage> {
   final TextEditingController _textEditingController = TextEditingController();
   final TextEditingController _textEditingControllerSystem =
-  TextEditingController();
+      TextEditingController();
   bool updating = false;
 
   bool updated = false;
@@ -64,7 +63,16 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
       child: Scaffold(
         backgroundColor: AppColor.grey200,
         appBar: AppBar(
-          title: Text(widget.task.name.toUpperCase()),
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            onPressed: () {
+              context.pop();
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
+          title: Text(
+            widget.task.name.toUpperCase(),
+          ),
           centerTitle: true,
         ),
         body: BlocListener<TaskDetailsCubit, TaskDetailsState>(
@@ -116,19 +124,19 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
                         padding: const EdgeInsets.fromLTRB(20, 16, 16, 16),
                         child: updating || widget.task.documentation == null
                             ? TextField(
-                            autofocus: true,
-                            controller: _textEditingController,
-                            onChanged: (_) {
-                              setState(() {
-                                updated = true;
-                              });
-                            },
-                            maxLines: null,
-                            decoration: widget.task.documentation == null
-                                ? const InputDecoration(
-                                focusedBorder: InputBorder.none,
-                                hintText: AppTexts.typeHere)
-                                : null)
+                                autofocus: true,
+                                controller: _textEditingController,
+                                onChanged: (_) {
+                                  setState(() {
+                                    updated = true;
+                                  });
+                                },
+                                maxLines: null,
+                                decoration: widget.task.documentation == null
+                                    ? const InputDecoration(
+                                        focusedBorder: InputBorder.none,
+                                        hintText: AppTexts.typeHere)
+                                    : null)
                             : Text(widget.task.documentation!),
                       ),
                     ),
@@ -230,7 +238,7 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
                                 return MyAlertDialogTextfield(
                                   onClick: () {
                                     setState(
-                                          () {
+                                      () {
                                         updated = true;
                                         systems.add(
                                             _textEditingControllerSystem.text);
@@ -266,14 +274,14 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
                               IconButton(
                                 onPressed: () {
                                   setState(
-                                        () {
+                                    () {
                                       updated = true;
                                       systems.remove(item);
                                     },
                                   );
                                 },
-                                icon: const Icon(
-                                    Icons.highlight_remove_outlined),
+                                icon:
+                                    const Icon(Icons.highlight_remove_outlined),
                               )
                             ],
                           ),
@@ -282,20 +290,23 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
                     ),
                   ),
                   SizedBox(
-                    height:
-                    systems.isNotEmpty ? screenSize(context).height / 70 : 0,
+                    height: systems.isNotEmpty
+                        ? screenSize(context).height / 70
+                        : 0,
                   ),
                   Material(
                     elevation: 4,
                     child: ListTile(
-                      onTap: () =>
-                          context.push('/task_list', extra: widget.task),
+                      tileColor: updated ? AppColor.grey200 : null,
+                      onTap: () async => updated
+                          ? showSnackbar(context, AppTexts.updateFirst)
+                          : context.push('/task_list', extra: widget.task),
                       title: const Text(AppTexts.tasks).h4(),
                       subtitle: Text(
-                          '${widget.task.tasks.length} ${AppTexts.registered}')
+                              '${widget.task.tasks.length} ${AppTexts.registered}')
                           .h6(
-                          style:
-                          const TextStyle(fontStyle: FontStyle.italic)),
+                              style:
+                                  const TextStyle(fontStyle: FontStyle.italic)),
                       trailing: const Icon(Icons.arrow_forward_rounded),
                     ),
                   ),
@@ -326,29 +337,33 @@ class _TaskDetailsPageState extends State<TaskDetailsPage> {
                         child: CustomButton(
                           onClick: updated
                               ? () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return MyAlertDialog(
-                                      onClick: () {
-                                        cubit.updateTaskUseCase(
-                                            props: UpdateTaskProps(
-                                              widget.task.id,
-                                              widget.task.previusId,
-                                              widget.task.fatherId,
-                                              widget.task.name,
-                                              responsible,
-                                              _textEditingController.text,
-                                              systems,)
-                                        );
-                                      },
-                                      text: AppTexts.updateTask);
-                                });
-                          }
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return MyAlertDialog(
+                                            onClick: () {
+                                              cubit.updateTaskUseCase(
+                                                  props: UpdateTaskProps(
+                                                widget.task.id,
+                                                widget.task.previusId,
+                                                widget.task.fatherId,
+                                                widget.task.name,
+                                                responsible,
+                                                _textEditingController.text,
+                                                systems,
+                                              ));
+                                              Navigator.of(context).pop();
+                                              setState((){
+                                                updated = false;
+                                              });
+                                            },
+                                            text: AppTexts.updateTask);
+                                      });
+                                }
                               : () {},
                           text: AppTexts.update,
-                          color: updated ? AppColor.purple600 : AppColor
-                              .grey200,
+                          color:
+                              updated ? AppColor.purple600 : AppColor.grey200,
                           textColor: updated ? Colors.white : AppColor.grey400,
                         ),
                       ),

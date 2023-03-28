@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stg_frontend/core/constants/app_texts.dart';
 
 class MyAlertDialog extends StatefulWidget {
@@ -23,7 +24,7 @@ class MyAlertDialogState extends State<MyAlertDialog> {
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            context.pop();
           },
           child: const Text(AppTexts.cancel),
         ),
