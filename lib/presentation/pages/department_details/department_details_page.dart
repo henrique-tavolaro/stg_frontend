@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:stg_frontend/core/config/injection.dart';
 import 'package:stg_frontend/core/constants/app_texts.dart';
 import 'package:stg_frontend/core/design_system/app_colors.dart';
+import 'package:stg_frontend/core/design_system/app_textstyle.dart';
+import 'package:stg_frontend/core/utils/screen_size.dart';
 import 'package:stg_frontend/core/utils/snackbar.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/I_task_datasource.dart';
 import 'package:stg_frontend/presentation/cubit/task_list/task_list_cubit.dart';
@@ -53,47 +55,87 @@ class _DepartmentDetailsPageState extends State<DepartmentDetailsPage> {
           title: Text(widget.department.toUpperCase()),
           centerTitle: true,
         ),
-        body: BlocConsumer<TaskListCubit, TaskListState>(
-          bloc: cubit,
-          listener: (context, state) {
-            state.maybeWhen(
-                created: () => showSnackbar(context, AppTexts.taskCreated),
-                failed: (_) => showSnackbar(context, AppTexts.internalError),
-                deleted: () => showSnackbar(context, AppTexts.taskDeleted),
-                orElse: (){});
-          },
-          builder: (context, state) {
-            return state.maybeWhen(
-                initial: () => const SizedBox.shrink(),
-                orElse: () => const EmptyTaskPage(),
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                loaded: (taskList) {
-                  if(taskList.isEmpty){
-                    return  const EmptyTaskPage();
-                  } else {
-                    return  ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: taskList.length,
-                      itemBuilder: (context, index) {
-                        final item = taskList[index];
-                        return TaskListTile(
-                          task: item,
-                          onClick: () async {
-                            final String? result = await context.push<String>('/task_details', extra: item);
-                            if(result != null){
-                              cubit.deleteTask(props: DeleteTaskProps(result, null, null));
-                            }
-                          },
-                        );
-                      },
-                    );
-                  }
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: InkWell(
+                  onTap: () async => context.push('/tree', extra: widget.department),
+                  child: Material(
+                    elevation: 4,
+                    child:
+                    Container(
+                      padding: const EdgeInsets.all(20),
+                        width: screenSize(context).width,
+                        child: SizedBox(
+                          child: Row(
+                            children: [
+                              const Icon(Icons.account_tree),
+                              SizedBox(
+                                width: screenSize(context).width / 20,
+                              ),
+                              Flexible(child: Text('${AppTexts.seeAllTasks}${widget.department}', softWrap: true,).h3()),
 
-                }
-            );
-          },
+                            ],
+                          ),
+                        )),
+                  ),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Divider(
+                  thickness: 1,
+                  height: 1,
+                  color: AppColor.grey900,
+                ),
+              ),
+
+              BlocConsumer<TaskListCubit, TaskListState>(
+                bloc: cubit,
+                listener: (context, state) {
+                  state.maybeWhen(
+                      created: () => showSnackbar(context, AppTexts.taskCreated),
+                      failed: (_) => showSnackbar(context, AppTexts.internalError),
+                      deleted: () => showSnackbar(context, AppTexts.taskDeleted),
+                      orElse: (){});
+                },
+                builder: (context, state) {
+                  return state.maybeWhen(
+                      initial: () => const SizedBox.shrink(),
+                      orElse: () => const EmptyTaskPage(),
+                      loading: () => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      loaded: (taskList) {
+                        if(taskList.isEmpty){
+                          return  const EmptyTaskPage();
+                        } else {
+                          return  ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: taskList.length,
+                            itemBuilder: (context, index) {
+                              final item = taskList[index];
+                              return TaskListTile(
+                                task: item,
+                                onClick: () async {
+                                  final String? result = await context.push<String>('/task_details', extra: item);
+                                  if(result != null){
+                                    cubit.deleteTask(props: DeleteTaskProps(result, null, null));
+                                  }
+                                },
+                              );
+                            },
+                          );
+                        }
+
+                      }
+                  );
+                },
+              ),
+            ],
+          ),
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {

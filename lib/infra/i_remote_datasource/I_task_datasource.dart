@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:stg_frontend/infra/models/task/task_model.dart';
+import 'package:stg_frontend/infra/models/tree/tree_model.dart';
 
 abstract class ITaskDatasource {
   Future<TaskModel> createTask({required CreateTaskProps props});
@@ -13,6 +14,14 @@ abstract class ITaskDatasource {
   Future<List<TaskModel>> fetchTasks({required FetchTasksProps props});
 
   Future<List<TaskModel>> fetchTasksByDepartment({required FetchTasksByDepartmentProps props});
+
+  Future<List<TreeModel>> fetchTreeByDepartment({required FetchTreeByDepartmentProps props});
+}
+
+class FetchTreeByDepartmentProps {
+  final String name;
+
+  FetchTreeByDepartmentProps(this.name);
 }
 
 class FetchTasksProps {

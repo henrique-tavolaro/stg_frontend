@@ -29,4 +29,6 @@ class AppTexts {
   static const responsible = "Responsável(is)";
   static const select = "Selecione";
   static const systems = "Sistemas";
+  static const seeAllTasks = "Ver todos os processos de ";
+
 }
