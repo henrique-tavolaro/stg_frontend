@@ -53,30 +53,41 @@ class _TreePageState extends State<TreePage> {
                   children: [
                     for (final tree in treeList)
                       tree.treeList.isNotEmpty
-                          ? ExpansionTile(
-                              backgroundColor: AppColor.grey400,
-                              collapsedBackgroundColor: AppColor.grey400,
-                              textColor: Colors.black,
-                              shape: const Border(
-                                  bottom: BorderSide(
-                                      color: AppColor.grey900, width: 0.5)),
-                              title: Text(tree.name).h3(
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold)),
-                              children: [
-                                for (final subTreeModel in tree.treeList)
-                                  _buildTreeNode(subTreeModel, 0, 36, 4),
-                              ],
+                          ? Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+                vertical: 2,
+              ),
+                              child: ExpansionTile(
+                                backgroundColor: AppColor.grey400,
+                                collapsedBackgroundColor: AppColor.grey400,
+                                textColor: Colors.black,
+                                iconColor: Colors.black,
+                                 title: Text(tree.name).h3(
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold)),
+                                children: [
+                                  for (final subTreeModel in tree.treeList)
+                                    _buildTreeNode(
+                                      treeModel: subTreeModel,
+                                      index: 4,
+                                      padding: 0,
+                                    ),
+                                ],
+                              ),
                             )
-                          : ListTile(
-                              tileColor: AppColor.grey400,
-                              textColor: Colors.black,
-                              shape: const Border(
-                                  bottom: BorderSide(
-                                      color: AppColor.grey900, width: 0.5)),
-                              title: Text(tree.name).h3(
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold)),
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                                vertical: 2,
+                              ),
+                              child: ListTile(
+                                tileColor: AppColor.grey400,
+                                textColor: Colors.black,
+                                title: Text(tree.name).h3(
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold)),
+                              ),
                             ),
                   ],
                 ),
@@ -88,37 +99,45 @@ class _TreePageState extends State<TreePage> {
   }
 
   Widget _buildTreeNode(
-      TreeModel treeModel, double padding, double elevation, int index) {
-    padding += 8;
-    elevation -= 4;
+      {required TreeModel treeModel,
+      required double padding,
+      required int index}) {
+    padding += 16;
     index -= 1;
 
     return treeModel.treeList.isNotEmpty
-        ? ExpansionTile(
-            backgroundColor: colorList[index],
-            collapsedBackgroundColor: colorList[index],
-            textColor: Colors.black,
-            shape: const Border(
-                bottom: BorderSide(color: AppColor.grey900, width: 0.5)),
-            title: Padding(
-              padding: EdgeInsets.only(left: padding),
-              child: Text(treeModel.name),
+        ? Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: ExpansionTile(
+              backgroundColor: colorList[index - 1 < 0 ? 0 : index - 1 ],
+              collapsedBackgroundColor: colorList[index < 0 ? 0 : index],
+              iconColor: Colors.black,
+              textColor: Colors.black,
+
+              title: Padding(
+                padding: EdgeInsets.only(left: padding),
+                child: Text(treeModel.name),
+              ),
+              children: [
+                for (final subTreeModel in treeModel.treeList)
+                  _buildTreeNode(
+                    treeModel: subTreeModel,
+                    padding: padding,
+                    index: index,
+                  ),
+              ],
             ),
-            children: [
-              for (final subTreeModel in treeModel.treeList)
-                _buildTreeNode(
-                    subTreeModel, padding, elevation, index < 0 ? 0 : index),
-            ],
           )
-        : ListTile(
-            tileColor: AppColor.grey400,
-            textColor: Colors.black,
-            shape: const Border(
-              bottom: BorderSide(color: AppColor.grey900, width: 0.5),
-            ),
-            title: Padding(
-              padding: EdgeInsets.only(left: padding),
-              child: Text(treeModel.name),
+        : Padding(
+      padding: const EdgeInsets.only(left: 8.0),
+            child: ListTile(
+              tileColor: colorList[index < 0 ? 0 : index],
+              textColor: Colors.black,
+
+              title: Padding(
+                padding: EdgeInsets.only(left: padding),
+                child: Text(treeModel.name),
+              ),
             ),
           );
   }
