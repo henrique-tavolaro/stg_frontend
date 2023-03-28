@@ -31,8 +31,8 @@ class TaskListCubit extends Cubit<TaskListState> {
     final inputEither = await fetchTasksUseCase(props: props);
 
     inputEither.fold(
-          (l) => emit(TaskListState.failed(l.message)),
-          (r) {
+      (l) => emit(TaskListState.failed(l.message)),
+      (r) {
         taskList.addAll(r);
         emit(TaskListState.loaded(taskList: taskList));
       },
@@ -42,7 +42,7 @@ class TaskListCubit extends Cubit<TaskListState> {
   Future<void> createTask({required CreateTaskProps props}) async {
     final inputEither = await createTaskUseCase(props: props);
 
-    inputEither.fold((l) => TaskListState.failed(l.message), (r) async {
+    inputEither.fold((l) => emit(TaskListState.failed(l.message)), (r) async {
       taskList.add(r);
       emit(const TaskListState.created());
       emit(TaskListState.loaded(taskList: taskList));
@@ -56,8 +56,8 @@ class TaskListCubit extends Cubit<TaskListState> {
     final inputEither = await fetchTasksByDepartmentUseCase(props: props);
 
     inputEither.fold(
-          (l) => emit(TaskListState.failed(l.message)),
-          (r) {
+      (l) => emit(TaskListState.failed(l.message)),
+      (r) {
         taskList.addAll(r);
         emit(TaskListState.loaded(taskList: taskList));
       },
@@ -68,15 +68,12 @@ class TaskListCubit extends Cubit<TaskListState> {
     final inputEither = await deleteTaskUseCase(props: props);
 
     inputEither.fold(
-            (l) => emit(TaskListState.failed(l.message)),
-            (r) {
-          taskList.removeWhere((task) => task.id == props.id
-              );
-    emit(const TaskListState.deleted());
-    emit(TaskListState.loaded(taskList: taskList));
+      (l) => emit(TaskListState.failed(l.message)),
+      (r) {
+        taskList.removeWhere((task) => task.id == props.id);
+        emit(const TaskListState.deleted());
+        emit(TaskListState.loaded(taskList: taskList));
+      },
+    );
   }
-
-  ,
-
-  );
-}}
+}

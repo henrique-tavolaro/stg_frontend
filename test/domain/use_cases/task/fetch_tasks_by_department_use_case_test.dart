@@ -3,7 +3,7 @@ import 'package:dartz_test/dartz_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:stg_frontend/core/error/failure.dart';
-import 'package:stg_frontend/domain/use_cases/task/fetch_task_use_case.dart';
+import 'package:stg_frontend/domain/use_cases/task/fetch_tasks_by_department_use_case.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/I_task_datasource.dart';
 import 'package:stg_frontend/infra/models/task/task_model.dart';
 import 'package:stg_frontend/infra/repositories/task_repository.dart';
@@ -16,34 +16,35 @@ class TaskRepositoryMock extends Mock implements TaskRepository {}
 void main() {
   final repository = TaskRepositoryMock();
 
-  late FetchTaskUseCase sut;
+  late FetchTasksByDepartmentUseCase sut;
 
   setUp(() {
-    sut = FetchTaskUseCase(repository);
-    registerFallbackValue(FetchTaskPropsFake());
+    sut = FetchTasksByDepartmentUseCase(repository);
+    registerFallbackValue(FetchTasksByDepartmentPropsFake());
   });
 
-  final fetchTaskProps = FetchTaskProps('id', null, null);
+  final fetchTasksByDepartmentProps = FetchTasksByDepartmentProps("name");
+
 
   test('should return right', () async {
-    when(() => repository.fetchTask(props: any(named: 'props')))
-        .thenAnswer((_) async => Right(taskModel));
+    when(() => repository.fetchTasksByDepartment(props: any(named: 'props')))
+        .thenAnswer((_) async =>  Right(taskModelList));
 
-    final result = await sut.call(props: fetchTaskProps);
+    final result = await sut.call(props: fetchTasksByDepartmentProps);
 
     expect(result, isRight);
-    expect(result, isRightThat(taskModel));
-    expect(result.fold(id, id), isA<TaskModel>());
+    expect(result, isRightThat(taskModelList));
+    expect(result.fold(id, id), isA<List<TaskModel>>());
   });
 
   test('should return left with a failure', () async {
-    when(() => repository.fetchTask(props: any(named: 'props'))).thenAnswer(
-      (_) async => const Left(
+    when(() => repository.fetchTasksByDepartment(props: any(named: 'props'))).thenAnswer(
+          (_) async => const Left(
         ServerFailure(message: '', code: ''),
       ),
     );
 
-    final result = await sut.call(props: fetchTaskProps);
+    final result = await sut.call(props: fetchTasksByDepartmentProps);
 
     expect(result.fold(id, id), isA<ServerFailure>());
     expect(result, isLeft);

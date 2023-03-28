@@ -8,3 +8,9 @@ class DeleteTaskPropsFake extends Fake implements DeleteTaskProps {}
 class UpdateTaskPropsFake extends Fake implements UpdateTaskProps {}
 
 class FetchTaskPropsFake extends Fake implements FetchTaskProps {}
+
+class FetchTasksPropsFake extends Fake implements FetchTasksProps {}
+
+class FetchTasksByDepartmentPropsFake extends Fake implements FetchTasksByDepartmentProps {}
+
+class FetchTreePropsFake extends Fake implements FetchTreeByDepartmentProps {}

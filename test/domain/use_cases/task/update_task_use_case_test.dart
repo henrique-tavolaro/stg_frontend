@@ -3,8 +3,6 @@ import 'package:dartz_test/dartz_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:stg_frontend/core/error/failure.dart';
-import 'package:stg_frontend/domain/use_cases/task/create_task_use_case.dart';
-import 'package:stg_frontend/domain/use_cases/task/delete_task_use_case.dart.dart';
 import 'package:stg_frontend/domain/use_cases/task/update_task_use_case.dart';
 import 'package:stg_frontend/infra/i_remote_datasource/I_task_datasource.dart';
 import 'package:stg_frontend/infra/repositories/task_repository.dart';
@@ -23,13 +21,21 @@ void main() {
     registerFallbackValue(UpdateTaskPropsFake());
   });
 
+  final updateTaskProps = UpdateTaskProps(
+      'id',
+      null,
+      null,
+      null,
+      [],
+      null,
+      []);
+
   test('should return right', () async {
     when(() => repository.updateTask(props: any(named: 'props')))
         .thenAnswer((_) async => const Right(unit));
 
     final result = await sut.call(
-        props:
-            UpdateTaskProps('id', null, null, null, null, [], null, [], null));
+        props: updateTaskProps);
 
     expect(result, isRight);
     expect(result, isRightThat(unit));
@@ -43,8 +49,7 @@ void main() {
       ),
     );
 
-    final result = await sut.call(props: UpdateTaskProps(
-        'id', null, null, null, null, [], null, [], null));
+    final result = await sut.call(props: updateTaskProps);
 
     expect(result.fold(id, id), isA<ServerFailure>());
     expect(result, isLeft);

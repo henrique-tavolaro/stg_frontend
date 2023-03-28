@@ -6,3 +6,4 @@ class CreateDepartmentPropsFake extends Fake implements CreateDepartmentProps {}
 class DeleteDepartmentPropsFake extends Fake implements DeleteDepartmentProps {}
 
 class FetchDepartmentPropsFake extends Fake implements FetchDepartmentProps {}
+

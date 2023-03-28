@@ -21,7 +21,7 @@ class TaskDetailsCubit extends Cubit<TaskDetailsState> {
 
     inputEither.fold(
       (l) => emit(TaskDetailsState.failed(message: l.message)),
-      (r) => emit(const TaskDetailsState.updated()),
+      (_) => emit(const TaskDetailsState.updated()),
     );
   }
 }

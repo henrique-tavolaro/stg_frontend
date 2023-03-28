@@ -23,11 +23,13 @@ void main() {
     registerFallbackValue(CreateTaskPropsFake());
   });
 
+  final createTaskProps = CreateTaskProps('id', 'rh', null, null);
+
   test('should return right', () async {
     when(() => repository.createTask(props: any(named: 'props')))
         .thenAnswer((_) async => Right(taskModel));
 
-    final result = await sut.call(props: CreateTaskProps('id', 'rh', null, null));
+    final result = await sut.call(props: createTaskProps);
 
     expect(result, isRight);
     expect(result, isRightThat(taskModel));
@@ -42,7 +44,7 @@ void main() {
       ),
     );
 
-    final result = await sut.call(props: CreateTaskProps('id', 'rh', null, null));
+    final result = await sut.call(props: createTaskProps);
 
     expect(result.fold(id, id), isA<ServerFailure>());
     expect(result, isLeft);

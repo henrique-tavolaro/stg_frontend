@@ -23,7 +23,7 @@ void main() {
   });
 
   group('create department', () {
-    test('should create department and return unit', () async {
+    test('should create department and return right', () async {
       when(() => client.post(params: any(named: 'params'))).thenAnswer(
         (_) async => HttpResponse(
           headers: null,
