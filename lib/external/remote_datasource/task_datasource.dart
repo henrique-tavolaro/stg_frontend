@@ -184,7 +184,7 @@ class TaskDatasource implements ITaskDatasource {
 
   @override
   Future<List<TaskModel>> fetchTasksByDepartment(
-      {required FetchTasksByDepartmentProps props}) async {
+      {required FetchTasksByDepartmentProps props}) async       {
     try {
       var tasks = <TaskModel>[];
       final response = await client.get(

@@ -84,7 +84,10 @@ class _TaskListPageState extends State<TaskListPage> {
                         return TaskListTile(
                           task: item,
                           onClick: () async {
-                            context.push<String>('/task_details', extra: item);
+                           final result = await context.push<String>('/task_details', extra: item);
+                           if(result != null){
+                             cubit.deleteTask(props: DeleteTaskProps(result, null, null));
+                           }
                           },
                         );
                       },
